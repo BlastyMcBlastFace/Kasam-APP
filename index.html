@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <link rel="stylesheet" href="style.css" />
   <!-- Chart.js för grafen -->
-  <script src="app.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
   <main class="container">
@@ -26,6 +26,19 @@
           <button type="button" class="info-icon" data-info="meaning">i</button>
         </label>
         <input type="range" id="meaning" min="0" max="10" value="5" step="1" />
+
+        <div class="info-box" id="info-meaning">
+          <strong>Meningsfullhet – “Varför spelar det här någon roll?”</strong>
+          <p>
+            Meningsfullhet handlar om att det du gör känns viktigt, begripligt för dig själv
+            och värt att lägga energi på – även när det är jobbigt.
+          </p>
+          <ul>
+            <li>När den är <em>hög</em>: du känner att dina insatser bidrar, att vardagen hänger ihop med dina värderingar.</li>
+            <li>När den är <em>låg</em>: mycket känns tomt, som “måsten”, eller som att du bara bockar av saker utan riktning.</li>
+            <li>Exempel: upplevelse av mening i jobbet, relationer, engagemang, lärande eller att bidra till något större.</li>
+          </ul>
+        </div>
       </div>
 
       <div class="slider-group">
@@ -34,6 +47,19 @@
           <button type="button" class="info-icon" data-info="comprehension">i</button>
         </label>
         <input type="range" id="comprehension" min="0" max="10" value="5" step="1" />
+
+        <div class="info-box" id="info-comprehension">
+          <strong>Begriplighet – “Förstår jag vad som händer?”</strong>
+          <p>
+            Begriplighet handlar om hur förutsägbar, begriplig och logisk världen känns –
+            både vardagen, jobbet och det som händer runt dig.
+          </p>
+          <ul>
+            <li>När den är <em>hög</em>: du har överblick, vet vad som förväntas och ser mönster i det som händer.</li>
+            <li>När den är <em>låg</em>: mycket känns oklart, rörigt eller motsägelsefullt, du saknar information eller struktur.</li>
+            <li>Exempel: tydliga mål, roller, rutiner, planer och att få svar på frågor när något är oklart.</li>
+          </ul>
+        </div>
       </div>
 
       <div class="slider-group">
@@ -42,6 +68,19 @@
           <button type="button" class="info-icon" data-info="manageability">i</button>
         </label>
         <input type="range" id="manageability" min="0" max="10" value="5" step="1" />
+
+        <div class="info-box" id="info-manageability">
+          <strong>Hanterbarhet – “Har jag resurser för det här?”</strong>
+          <p>
+            Hanterbarhet handlar om din upplevelse av att ha tillräckligt med resurser
+            för att möta kraven: tid, energi, stöd, kompetens och inflytande.
+          </p>
+          <ul>
+            <li>När den är <em>hög</em>: du känner att du har verktyg, stöd och möjligheter att påverka situationen.</li>
+            <li>När den är <em>låg</em>: du upplever dig maktlös, överbelastad eller som att allt “bara händer dig”.</li>
+            <li>Exempel: rimlig arbetsbelastning, socialt stöd, mandat att fatta beslut, återhämtning och självmedkänsla.</li>
+          </ul>
+        </div>
       </div>
 
       <button id="save-btn" class="primary-btn">Spara dagens KASAM (lokalt)</button>
@@ -107,24 +146,11 @@
       <p id="chart-status" class="status-text"></p>
     </section>
 
-    <!-- Popup för KASAM-info -->
-    <div id="info-overlay" class="info-overlay">
-      <div class="info-modal">
-        <div class="info-modal-header">
-          <h2 id="info-title">KASAM-dimension</h2>
-          <button type="button" id="close-info" class="close-info">&times;</button>
-        </div>
-        <p id="info-body"></p>
-        <ul id="info-list"></ul>
-      </div>
-    </div>
-
     <footer>
-      <p>Version 5.2 – info-popup, rådstilar, daglig loggning och graf.</p>
+      <p>Version 5.3 – info-popups per slider, rådstilar, daglig loggning och graf.</p>
     </footer>
   </main>
 
   <script src="app.js"></script>
 </body>
 </html>
-
