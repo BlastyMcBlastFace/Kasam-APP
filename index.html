@@ -1,9 +1,22 @@
-<!doctype html>
-<html lang="sv">
 <head>
   <meta charset="utf-8" />
   <title>KASAM – Daglig check-in</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <!-- PWA / färg i mobilens UI -->
+  <meta name="theme-color" content="#020617" />
+
+  <!-- iOS-specifika hintar (gör den mer “appig” på iPhone) -->
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="KASAM" />
+
+  <!-- PWA manifest -->
+  <link rel="manifest" href="manifest.json" />
+
+  <!-- Ikon för iOS (kan peka på 192- eller 512-ikonen) -->
+  <link rel="apple-touch-icon" href="icons/icon-192.png" />
+
   <link rel="stylesheet" href="style.css" />
   <!-- Chart.js för grafen -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -154,3 +167,4 @@
   <script src="app.js"></script>
 </body>
 </html>
+
