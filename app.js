@@ -1,4 +1,6 @@
 document.addEventListener("DOMContentLoaded", () => {
+  console.log("KASAM-app initieras…");
+
   const meaningSlider = document.getElementById("meaning");
   const comprehensionSlider = document.getElementById("comprehension");
   const manageabilitySlider = document.getElementById("manageability");
@@ -27,12 +29,10 @@ document.addEventListener("DOMContentLoaded", () => {
   const STORAGE_KEY = "kasamLogV1";
   let kasamChart = null;
 
-  console.log("KASAM-app initieras…");
-
-  // --- Datum / logg-hjälpare ---
+  // === Hjälpfunktioner för lagring ===
 
   function todayISODate() {
-    return new Date().toISOString().slice(0, 10); // YYYY-MM-DD
+    return new Date().toISOString().slice(0, 10);
   }
 
   function loadLog() {
@@ -57,12 +57,7 @@ document.addEventListener("DOMContentLoaded", () => {
   function saveTodayEntry(meaning, comprehension, manageability) {
     const log = loadLog();
     const d = todayISODate();
-    log[d] = {
-      date: d,
-      meaning,
-      comprehension,
-      manageability,
-    };
+    log[d] = { date: d, meaning, comprehension, manageability };
     saveLog(log);
     return d;
   }
@@ -79,7 +74,7 @@ document.addEventListener("DOMContentLoaded", () => {
     return d.toLocaleDateString("sv-SE", { month: "short", day: "numeric" });
   }
 
-  // --- KASAM-logik ---
+  // === KASAM-logik ===
 
   function getLevel(value) {
     if (value <= 3) return "low";
@@ -92,15 +87,13 @@ document.addEventListener("DOMContentLoaded", () => {
     const avgRounded = avg.toFixed(1);
 
     if (avg <= 3) {
-      return `Din samlade KASAM-nivå (${avgRounded}/10) känns låg idag. Små, konsekventa steg är mer hållbara än stora ryck – välj 1–2 råd att testa.`;
+      return `Din samlade KASAM-nivå (${avgRounded}/10) känns låg idag. Välj 1–2 råd att testa – små steg räcker.`;
     }
     if (avg <= 7) {
-      return `Din KASAM (${avgRounded}/10) ligger på en mellannivå. Du har delar som fungerar och några som kan stärkas. Se tipsen som experiment, inte krav.`;
+      return `Din KASAM (${avgRounded}/10) ligger på en mellannivå. Du har delar som fungerar och några som kan stärkas. Se tipsen som experiment.`;
     }
-    return `Din KASAM är hög idag (${avgRounded}/10). Notera vad som bidrar mest just nu – det blir din personliga skyddsfaktor framåt.`;
+    return `Din KASAM är hög idag (${avgRounded}/10). Notera vad som bidrar mest just nu – det blir din skyddsfaktor framåt.`;
   }
-
-  // --- Råd per dimension ---
 
   function getAdvice(meaning, comprehension, manageability) {
     function levelAdvice(value, low, medium, high) {
@@ -114,7 +107,7 @@ document.addEventListener("DOMContentLoaded", () => {
       [
         "Välj en liten aktivitet idag som ligger nära dina värderingar.",
         "Fundera på vad som skulle göra dagen 5% mer meningsfull.",
-        "Skriv ned varför något du gör den här veckan spelar roll."
+        "Skriv ned varför något du gör denna vecka spelar roll."
       ],
       [
         "Identifiera när du känt mest energi idag och planera in mer av det.",
@@ -164,7 +157,6 @@ document.addEventListener("DOMContentLoaded", () => {
       ]
     );
 
-    // Coach-perspektiv: svagaste dimensionen
     const dims = [
       { key: "meningsfullhet", value: meaning },
       { key: "begriplighet", value: comprehension },
@@ -183,9 +175,13 @@ document.addEventListener("DOMContentLoaded", () => {
     };
   }
 
-  // --- UI-uppdatering av råd ---
+  // === UI-funktioner ===
 
-  function renderAdviceList(container, items) {
+  function renderAdviceList(container, items, nameForLog) {
+    if (!container) {
+      console.warn(`Kan inte rendera råd – elementet för ${nameForLog} hittades inte.`);
+      return;
+    }
     container.innerHTML = "";
     items.forEach((text) => {
       const li = document.createElement("li");
@@ -194,7 +190,11 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  function setLevelClass(card, level) {
+  function setLevelClass(card, level, nameForLog) {
+    if (!card) {
+      console.warn(`Kan inte sätta nivåklass – kortet för ${nameForLog} hittades inte.`);
+      return;
+    }
     card.classList.remove("level-low", "level-medium", "level-high");
     card.classList.add(`level-${level}`);
   }
@@ -215,22 +215,24 @@ document.addEventListener("DOMContentLoaded", () => {
     );
 
     const advice = getAdvice(meaning, comprehension, manageability);
+    console.log("Råd-objekt:", advice);
 
-    // Rendera listor per dimension
-    renderAdviceList(adviceMeaningEl, advice.meaningfulness);
-    renderAdviceList(adviceComprehensionEl, advice.comprehensibility);
-    renderAdviceList(adviceManageabilityEl, advice.manageability);
+    renderAdviceList(adviceMeaningEl, advice.meaningfulness, "meningsfullhet");
+    renderAdviceList(adviceComprehensionEl, advice.comprehensibility, "begriplighet");
+    renderAdviceList(adviceManageabilityEl, advice.manageability, "hanterbarhet");
 
-    // Färgkoda korten
-    setLevelClass(cardMeaning, getLevel(meaning));
-    setLevelClass(cardComprehension, getLevel(comprehension));
-    setLevelClass(cardManageability, getLevel(manageability));
+    setLevelClass(cardMeaning, getLevel(meaning), "meningsfullhet");
+    setLevelClass(cardComprehension, getLevel(comprehension), "begriplighet");
+    setLevelClass(cardManageability, getLevel(manageability), "hanterbarhet");
 
-    // Coach-text
-    coachText.textContent = advice.coach;
+    if (coachText) {
+      coachText.textContent = advice.coach;
+    } else {
+      console.warn("coach-text-element saknas.");
+    }
   }
 
-  // --- Diagram ---
+  // === Diagram ===
 
   function renderChart() {
     const entries = getSortedEntries();
@@ -283,30 +285,19 @@ document.addEventListener("DOMContentLoaded", () => {
       responsive: true,
       plugins: {
         legend: {
-          labels: {
-            color: "#e5e7eb",
-          },
+          labels: { color: "#e5e7eb" },
         },
       },
       scales: {
         x: {
-          ticks: {
-            color: "#9ca3af",
-          },
-          grid: {
-            color: "rgba(75, 85, 99, 0.4)",
-          },
+          ticks: { color: "#9ca3af" },
+          grid: { color: "rgba(75, 85, 99, 0.4)" },
         },
         y: {
           min: 0,
           max: 10,
-          ticks: {
-            stepSize: 2,
-            color: "#9ca3af",
-          },
-          grid: {
-            color: "rgba(75, 85, 99, 0.4)",
-          },
+          ticks: { stepSize: 2, color: "#9ca3af" },
+          grid: { color: "rgba(75, 85, 99, 0.4)" },
         },
       },
     };
@@ -324,7 +315,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  // --- Event-hantering ---
+  // === Event ===
 
   [meaningSlider, comprehensionSlider, manageabilitySlider].forEach((slider) =>
     slider.addEventListener("input", () => {
@@ -333,17 +324,4 @@ document.addEventListener("DOMContentLoaded", () => {
     })
   );
 
-  saveBtn.addEventListener("click", () => {
-    const meaning = Number(meaningSlider.value);
-    const comprehension = Number(comprehensionSlider.value);
-    const manageability = Number(manageabilitySlider.value);
-
-    const date = saveTodayEntry(meaning, comprehension, manageability);
-    renderChart();
-    saveStatus.textContent = `Dagens KASAM sparad (${date}).`;
-  });
-
-  // Initiera
-  updateUI();
-  renderChart();
-});
+  saveBtn.addEventL
