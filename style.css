@@ -101,12 +101,19 @@ input[type="range"] {
   color: #a5b4fc;
 }
 
-.summary, .advice {
+.summary,
+.advice,
+.history {
   background: rgba(15, 23, 42, 0.8);
   border-radius: 1rem;
   padding: 1rem;
   margin-bottom: 0.75rem;
   border: 1px solid rgba(51, 65, 85, 0.9);
+}
+
+.history-text {
+  font-size: 0.9rem;
+  color: #9ca3af;
 }
 
 /* --- Råd-layout --- */
@@ -184,6 +191,35 @@ input[type="range"] {
   font-size: 0.9rem;
 }
 
+/* Inställningsrad (rådstil) */
+
+.settings-row {
+  margin-top: 0.5rem;
+  margin-bottom: 0.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  font-size: 0.9rem;
+}
+
+.settings-row label {
+  font-weight: 600;
+}
+
+.settings-row select {
+  margin-top: 0.1rem;
+  padding: 0.2rem 0.4rem;
+  border-radius: 0.5rem;
+  border: 1px solid #4b5563;
+  background: #020617;
+  color: #e5e7eb;
+}
+
+.settings-help {
+  font-size: 0.8rem;
+  color: #9ca3af;
+}
+
 /* Footer */
 
 footer {
@@ -202,5 +238,15 @@ footer {
 
   .advice-grid {
     grid-template-columns: repeat(3, 1fr);
+  }
+
+  .settings-row {
+    flex-direction: row;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .settings-row label {
+    margin-right: 0.5rem;
   }
 }
