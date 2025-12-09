@@ -14,7 +14,7 @@ body {
 }
 
 .container {
-  max-width: 720px;
+  max-width: 900px;
   width: 100%;
   background: #020617;
   border-radius: 1.5rem;
@@ -36,6 +36,11 @@ h2 {
   font-size: 1.2rem;
   margin-bottom: 0.5rem;
   margin-top: 1rem;
+}
+
+h3 {
+  font-size: 1rem;
+  margin-bottom: 0.4rem;
 }
 
 p {
@@ -100,22 +105,91 @@ input[type="range"] {
   background: rgba(15, 23, 42, 0.8);
   border-radius: 1rem;
   padding: 1rem;
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.75rem;
   border: 1px solid rgba(51, 65, 85, 0.9);
-}
-
-#advice-list ul {
-  padding-left: 1.2rem;
-}
-
-#advice-list li {
-  margin-bottom: 0.3rem;
 }
 
 .history-text {
   font-size: 0.9rem;
   color: #9ca3af;
 }
+
+/* --- Råd-layout --- */
+
+.advice-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.75rem;
+  margin-top: 0.5rem;
+}
+
+.advice-card {
+  background: rgba(15, 23, 42, 0.9);
+  border-radius: 0.75rem;
+  padding: 0.75rem 0.9rem;
+  border-left: 4px solid rgba(148, 163, 184, 0.8);
+  transition: transform 0.05s ease, box-shadow 0.05s ease;
+}
+
+.advice-card:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 10px 20px rgba(15, 23, 42, 0.7);
+}
+
+.advice-list {
+  padding-left: 1.1rem;
+  font-size: 0.9rem;
+}
+
+.advice-list li {
+  margin-bottom: 0.25rem;
+}
+
+/* Färgkod per nivå */
+
+.advice-card.level-low {
+  border-left-color: #f97373;
+}
+
+.advice-card.level-medium {
+  border-left-color: #eab308;
+}
+
+.advice-card.level-high {
+  border-left-color: #22c55e;
+}
+
+.advice-card.level-low h3 {
+  color: #fecaca;
+}
+
+.advice-card.level-medium h3 {
+  color: #facc15;
+}
+
+.advice-card.level-high h3 {
+  color: #bbf7d0;
+}
+
+/* Coach-block */
+
+.coach {
+  margin-top: 0.9rem;
+  padding: 0.8rem 0.9rem;
+  border-radius: 0.75rem;
+  background: rgba(30, 64, 175, 0.3);
+  border: 1px solid rgba(129, 140, 248, 0.6);
+}
+
+.coach h3 {
+  color: #c7d2fe;
+}
+
+.coach p {
+  font-size: 0.9rem;
+}
+
+/* Footer */
 
 footer {
   margin-top: 1rem;
@@ -124,8 +198,14 @@ footer {
   text-align: center;
 }
 
+/* Responsiv layout */
+
 @media (min-width: 768px) {
   h1 {
     font-size: 2rem;
+  }
+
+  .advice-grid {
+    grid-template-columns: repeat(3, 1fr);
   }
 }
