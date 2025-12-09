@@ -29,8 +29,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const adviceStyleSelect = document.getElementById("advice-style");
 
+  // Info-popup-element
   const infoButtons = document.querySelectorAll(".info-icon");
-  const infoBoxes = document.querySelectorAll(".info-box");
+  const infoOverlay = document.getElementById("info-overlay");
+  const infoTitle = document.getElementById("info-title");
+  const infoBody = document.getElementById("info-body");
+  const infoList = document.getElementById("info-list");
+  const closeInfoBtn = document.getElementById("close-info");
 
   const STORAGE_KEY = "kasamLogV1";
   const ADVICE_STYLE_KEY = "kasamAdviceStyleV1";
@@ -406,24 +411,85 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  // ===== Info-popups =====
+  // ===== Info-popup =====
+
+  const infoContent = {
+    meaning: {
+      title: "Meningsfullhet – ”Varför spelar det här någon roll?”",
+      body:
+        "Meningsfullhet handlar om att det du gör känns viktigt, begripligt för dig själv och värt att lägga energi på – även när det är jobbigt.",
+      bullets: [
+        "När den är hög: du känner att dina insatser bidrar och att vardagen hänger ihop med dina värderingar.",
+        "När den är låg: mycket känns tomt, som ’måsten’, eller som att du bara bockar av saker utan riktning.",
+        "Exempel: upplevelse av mening i jobbet, relationer, engagemang, lärande eller att bidra till något större."
+      ]
+    },
+    comprehension: {
+      title: "Begriplighet – ”Förstår jag vad som händer?”",
+      body:
+        "Begriplighet handlar om hur förutsägbar, begriplig och logisk världen känns – både vardagen, jobbet och det som händer runt dig.",
+      bullets: [
+        "När den är hög: du har överblick, vet vad som förväntas och ser mönster i det som händer.",
+        "När den är låg: mycket känns oklart, rörigt eller motsägelsefullt – du saknar information eller struktur.",
+        "Exempel: tydliga mål, roller, rutiner, planer och att få svar på frågor när något är oklart."
+      ]
+    },
+    manageability: {
+      title: "Hanterbarhet – ”Har jag resurser för det här?”",
+      body:
+        "Hanterbarhet handlar om din upplevelse av att ha tillräckligt med resurser för att möta kraven: tid, energi, stöd, kompetens och inflytande.",
+      bullets: [
+        "När den är hög: du känner att du har verktyg, stöd och möjligheter att påverka situationen.",
+        "När den är låg: du upplever dig maktlös, överbelastad eller som att allt ”bara händer dig”.",
+        "Exempel: rimlig arbetsbelastning, socialt stöd, mandat att fatta beslut, återhämtning och självmedkänsla."
+      ]
+    }
+  };
+
+  function openInfo(key) {
+    const cfg = infoContent[key];
+    if (!cfg || !infoOverlay) return;
+
+    infoTitle.textContent = cfg.title;
+    infoBody.textContent = cfg.body;
+    infoList.innerHTML = "";
+    cfg.bullets.forEach((b) => {
+      const li = document.createElement("li");
+      li.textContent = b;
+      infoList.appendChild(li);
+    });
+
+    infoOverlay.classList.add("open");
+  }
+
+  function closeInfo() {
+    if (infoOverlay) infoOverlay.classList.remove("open");
+  }
 
   function initInfoPopups() {
-    if (!infoButtons.length) return;
+    if (!infoButtons.length || !infoOverlay) return;
 
     infoButtons.forEach((btn) => {
       btn.addEventListener("click", () => {
         const key = btn.dataset.info;
-        const targetId = "info-" + key;
-
-        infoBoxes.forEach((box) => {
-          if (box.id === targetId) {
-            box.classList.toggle("open");
-          } else {
-            box.classList.remove("open");
-          }
-        });
+        openInfo(key);
       });
+    });
+
+    if (closeInfoBtn) {
+      closeInfoBtn.addEventListener("click", closeInfo);
+    }
+
+    infoOverlay.addEventListener("click", (e) => {
+      if (e.target === infoOverlay) {
+        closeInfo();
+      }
+    });
+
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape") {
+        closeInfo();
+      }
     });
   }
 
