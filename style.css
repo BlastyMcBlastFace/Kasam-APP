@@ -101,17 +101,12 @@ input[type="range"] {
   color: #a5b4fc;
 }
 
-.summary, .advice, .history {
+.summary, .advice {
   background: rgba(15, 23, 42, 0.8);
   border-radius: 1rem;
   padding: 1rem;
   margin-bottom: 0.75rem;
   border: 1px solid rgba(51, 65, 85, 0.9);
-}
-
-.history-text {
-  font-size: 0.9rem;
-  color: #9ca3af;
 }
 
 /* --- Råd-layout --- */
