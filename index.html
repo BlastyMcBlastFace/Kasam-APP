@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8" />
+  <title>KASAM – Daglig check-in</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <main class="container">
+    <header>
+      <h1>KASAM – Daglig check-in</h1>
+      <p>
+        Skatta din dag på <strong>meningsfullhet</strong>, <strong>begriplighet</strong>
+        och <strong>hanterbarhet</strong>. Få direkt förslag på hur du kan stärka din känsla av sammanhang.
+      </p>
+    </header>
+
+    <section class="sliders">
+      <div class="slider-group">
+        <label for="meaning">Meningsfullhet:
+          <span class="value" id="meaning-value">5</span>/10
+        </label>
+        <input type="range" id="meaning" min="0" max="10" value="5" step="1" />
+      </div>
+
+      <div class="slider-group">
+        <label for="comprehension">Begriplighet:
+          <span class="value" id="comprehension-value">5</span>/10
+        </label>
+        <input type="range" id="comprehension" min="0" max="10" value="5" step="1" />
+      </div>
+
+      <div class="slider-group">
+        <label for="manageability">Hanterbarhet:
+          <span class="value" id="manageability-value">5</span>/10
+        </label>
+        <input type="range" id="manageability" min="0" max="10" value="5" step="1" />
+      </div>
+    </section>
+
+    <section class="summary">
+      <h2>Din KASAM idag</h2>
+      <p id="kasam-summary"></p>
+    </section>
+
+    <section class="advice">
+      <h2>Förslag för din vardag</h2>
+      <div id="advice-list"></div>
+    </section>
+
+    <footer>
+      <p>Version 1.0 – enkel prototyp. Utveckla gärna vidare i din GitHub-repo!</p>
+    </footer>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>
