@@ -5,8 +5,6 @@
   <title>KASAM – Daglig check-in</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <link rel="stylesheet" href="style.css" />
-  <!-- Chart.js för enkla linjediagram -->
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
   <main class="container">
@@ -50,22 +48,25 @@
       <p id="kasam-summary"></p>
     </section>
 
-<div class="advice-grid">
-  <div class="advice-card" id="card-meaning">
-    <h3>Meningsfullhet</h3>
-    <ul class="advice-list" id="advice-meaning"></ul>
-  </div>
+    <section class="advice">
+      <h2>Råd per KASAM-dimension</h2>
 
-  <div class="advice-card" id="card-comprehension">
-    <h3>Begriplighet</h3>
-    <ul class="advice-list" id="advice-comprehension"></ul>
-  </div>
+      <div class="advice-grid">
+        <div class="advice-card" id="card-meaning">
+          <h3>Meningsfullhet</h3>
+          <ul class="advice-list" id="advice-meaning"></ul>
+        </div>
 
-  <div class="advice-card" id="card-manageability">
-    <h3>Hanterbarhet</h3>
-    <ul class="advice-list" id="advice-manageability"></ul>
-  </div>
-</div>
+        <div class="advice-card" id="card-comprehension">
+          <h3>Begriplighet</h3>
+          <ul class="advice-list" id="advice-comprehension"></ul>
+        </div>
+
+        <div class="advice-card" id="card-manageability">
+          <h3>Hanterbarhet</h3>
+          <ul class="advice-list" id="advice-manageability"></ul>
+        </div>
+      </div>
 
       <div class="coach">
         <h3>Coachande fokus</h3>
@@ -73,21 +74,11 @@
       </div>
     </section>
 
-    <section class="history">
-      <h2>Historik & utveckling</h2>
-      <p class="history-text">
-        Här ser du hur dina KASAM-dimensioner har utvecklats över tid.
-        Fokusera på trenden, inte enskilda dagar.
-      </p>
-      <canvas id="kasamChart" height="220"></canvas>
-    </section>
-
     <footer>
-      <p>Version 3.0 – separata råd per dimension, daglig loggning och grafer.</p>
+      <p>Version 3.1 – separata råd per dimension (utan graf för felsökning).</p>
     </footer>
   </main>
 
   <script src="app.js"></script>
 </body>
 </html>
-
