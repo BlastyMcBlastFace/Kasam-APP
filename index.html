@@ -4,7 +4,204 @@
   <meta charset="utf-8" />
   <title>KASAM – Daglig check-in</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <link rel="stylesheet" href="style.css" />
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    body {
+      background: #0f172a;
+      color: #e5e7eb;
+      display: flex;
+      justify-content: center;
+      padding: 1.5rem;
+    }
+
+    .container {
+      max-width: 900px;
+      width: 100%;
+      background: #020617;
+      border-radius: 1.5rem;
+      padding: 2rem 1.5rem;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+      border: 1px solid rgba(148, 163, 184, 0.3);
+    }
+
+    header {
+      margin-bottom: 1.5rem;
+    }
+
+    h1 {
+      font-size: 1.6rem;
+      margin-bottom: 0.5rem;
+    }
+
+    h2 {
+      font-size: 1.2rem;
+      margin-bottom: 0.5rem;
+      margin-top: 1rem;
+    }
+
+    h3 {
+      font-size: 1rem;
+      margin-bottom: 0.4rem;
+    }
+
+    p {
+      line-height: 1.5;
+      margin-bottom: 0.5rem;
+    }
+
+    .sliders {
+      margin: 1.5rem 0;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .slider-group label {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 0.25rem;
+      font-size: 0.95rem;
+    }
+
+    .slider-group .value {
+      font-weight: 600;
+    }
+
+    input[type="range"] {
+      width: 100%;
+      accent-color: #22c55e;
+    }
+
+    .primary-btn {
+      margin-top: 0.5rem;
+      padding: 0.6rem 1rem;
+      border-radius: 999px;
+      border: none;
+      cursor: pointer;
+      font-size: 0.95rem;
+      font-weight: 600;
+      background: linear-gradient(135deg, #22c55e, #16a34a);
+      color: #020617;
+      align-self: flex-start;
+      box-shadow: 0 10px 20px rgba(22, 163, 74, 0.4);
+      transition: transform 0.05s ease, box-shadow 0.05s ease, opacity 0.15s ease;
+    }
+
+    .primary-btn:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 14px 24px rgba(22, 163, 74, 0.5);
+    }
+
+    .primary-btn:active {
+      transform: translateY(1px);
+      box-shadow: 0 6px 12px rgba(22, 163, 74, 0.4);
+    }
+
+    .status-text {
+      font-size: 0.8rem;
+      color: #a5b4fc;
+    }
+
+    .summary, .advice {
+      background: rgba(15, 23, 42, 0.8);
+      border-radius: 1rem;
+      padding: 1rem;
+      margin-bottom: 0.75rem;
+      border: 1px solid rgba(51, 65, 85, 0.9);
+    }
+
+    .advice-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 0.75rem;
+      margin-top: 0.5rem;
+    }
+
+    .advice-card {
+      background: rgba(15, 23, 42, 0.9);
+      border-radius: 0.75rem;
+      padding: 0.75rem 0.9rem;
+      border-left: 4px solid rgba(148, 163, 184, 0.8);
+      transition: transform 0.05s ease, box-shadow 0.05s ease;
+    }
+
+    .advice-card:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 10px 20px rgba(15, 23, 42, 0.7);
+    }
+
+    .advice-list {
+      padding-left: 1.1rem;
+      font-size: 0.9rem;
+    }
+
+    .advice-list li {
+      margin-bottom: 0.25rem;
+    }
+
+    .advice-card.level-low {
+      border-left-color: #f97373;
+    }
+
+    .advice-card.level-medium {
+      border-left-color: #eab308;
+    }
+
+    .advice-card.level-high {
+      border-left-color: #22c55e;
+    }
+
+    .advice-card.level-low h3 {
+      color: #fecaca;
+    }
+
+    .advice-card.level-medium h3 {
+      color: #facc15;
+    }
+
+    .advice-card.level-high h3 {
+      color: #bbf7d0;
+    }
+
+    .coach {
+      margin-top: 0.9rem;
+      padding: 0.8rem 0.9rem;
+      border-radius: 0.75rem;
+      background: rgba(30, 64, 175, 0.3);
+      border: 1px solid rgba(129, 140, 248, 0.6);
+    }
+
+    .coach h3 {
+      color: #c7d2fe;
+    }
+
+    .coach p {
+      font-size: 0.9rem;
+    }
+
+    footer {
+      margin-top: 1rem;
+      font-size: 0.8rem;
+      color: #9ca3af;
+      text-align: center;
+    }
+
+    @media (min-width: 768px) {
+      h1 {
+        font-size: 2rem;
+      }
+
+      .advice-grid {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+  </style>
 </head>
 <body>
   <main class="container">
@@ -39,7 +236,7 @@
         <input type="range" id="manageability" min="0" max="10" value="5" step="1" />
       </div>
 
-      <button id="save-btn" class="primary-btn">Spara dagens KASAM</button>
+      <button id="save-btn" class="primary-btn">Spara dagens KASAM (lokalt)</button>
       <p id="save-status" class="status-text"></p>
     </section>
 
@@ -54,31 +251,258 @@
       <div class="advice-grid">
         <div class="advice-card" id="card-meaning">
           <h3>Meningsfullhet</h3>
-          <ul class="advice-list" id="advice-meaning"></ul>
+          <ul class="advice-list" id="advice-meaning">
+            <li>(Råd laddas…)</li>
+          </ul>
         </div>
 
         <div class="advice-card" id="card-comprehension">
           <h3>Begriplighet</h3>
-          <ul class="advice-list" id="advice-comprehension"></ul>
+          <ul class="advice-list" id="advice-comprehension">
+            <li>(Råd laddas…)</li>
+          </ul>
         </div>
 
         <div class="advice-card" id="card-manageability">
           <h3>Hanterbarhet</h3>
-          <ul class="advice-list" id="advice-manageability"></ul>
+          <ul class="advice-list" id="advice-manageability">
+            <li>(Råd laddas…)</li>
+          </ul>
         </div>
       </div>
 
       <div class="coach">
         <h3>Coachande fokus</h3>
-        <p id="coach-text"></p>
+        <p id="coach-text">(Fokus laddas…)</p>
       </div>
     </section>
 
     <footer>
-      <p>Version 3.1 – separata råd per dimension (utan graf för felsökning).</p>
+      <p>Version 3.2 – allt i en fil, separata råd per dimension.</p>
     </footer>
   </main>
 
-  <script src="app.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      console.log("KASAM-app initieras…");
+
+      const meaningSlider = document.getElementById("meaning");
+      const comprehensionSlider = document.getElementById("comprehension");
+      const manageabilitySlider = document.getElementById("manageability");
+
+      const meaningValue = document.getElementById("meaning-value");
+      const comprehensionValue = document.getElementById("comprehension-value");
+      const manageabilityValue = document.getElementById("manageability-value");
+
+      const kasamSummary = document.getElementById("kasam-summary");
+
+      const adviceMeaningEl = document.getElementById("advice-meaning");
+      const adviceComprehensionEl = document.getElementById("advice-comprehension");
+      const adviceManageabilityEl = document.getElementById("advice-manageability");
+
+      const cardMeaning = document.getElementById("card-meaning");
+      const cardComprehension = document.getElementById("card-comprehension");
+      const cardManageability = document.getElementById("card-manageability");
+
+      const coachText = document.getElementById("coach-text");
+
+      const saveBtn = document.getElementById("save-btn");
+      const saveStatus = document.getElementById("save-status");
+
+      const STORAGE_KEY = "kasamLogV1";
+
+      function todayISODate() {
+        return new Date().toISOString().slice(0, 10);
+      }
+
+      function loadLog() {
+        try {
+          const raw = localStorage.getItem(STORAGE_KEY);
+          if (!raw) return {};
+          return JSON.parse(raw);
+        } catch (e) {
+          console.error("Kunde inte läsa KASAM-logg:", e);
+          return {};
+        }
+      }
+
+      function saveLog(log) {
+        try {
+          localStorage.setItem(STORAGE_KEY, JSON.stringify(log));
+        } catch (e) {
+          console.error("Kunde inte spara KASAM-logg:", e);
+        }
+      }
+
+      function saveTodayEntry(meaning, comprehension, manageability) {
+        const log = loadLog();
+        const d = todayISODate();
+        log[d] = { date: d, meaning, comprehension, manageability };
+        saveLog(log);
+        return d;
+      }
+
+      function getLevel(value) {
+        if (value <= 3) return "low";
+        if (value <= 7) return "medium";
+        return "high";
+      }
+
+      function getKasamSummary(meaning, comprehension, manageability) {
+        const avg = (meaning + comprehension + manageability) / 3;
+        const avgRounded = avg.toFixed(1);
+
+        if (avg <= 3) {
+          return `Din samlade KASAM-nivå (${avgRounded}/10) känns låg idag. Små, konsekventa steg räcker – välj 1–2 råd att testa.`;
+        }
+        if (avg <= 7) {
+          return `Din KASAM (${avgRounded}/10) ligger på en mellannivå. Du har delar som fungerar och några som kan stärkas. Se tipsen som experiment, inte krav.`;
+        }
+        return `Din KASAM är hög idag (${avgRounded}/10). Notera vad som bidrar mest just nu – det blir din personliga skyddsfaktor framåt.`;
+      }
+
+      function getAdvice(meaning, comprehension, manageability) {
+        function levelAdvice(value, low, medium, high) {
+          if (value <= 3) return low;
+          if (value <= 7) return medium;
+          return high;
+        }
+
+        const meaningfulnessAdvice = levelAdvice(
+          meaning,
+          [
+            "Välj en liten aktivitet idag som ligger nära dina värderingar.",
+            "Fundera på vad som skulle göra dagen 5% mer meningsfull.",
+            "Skriv ned varför något du gör denna vecka spelar roll."
+          ],
+          [
+            "Identifiera när du känt mest energi idag och planera in mer av det.",
+            "Formulera dagens viktigaste mening: 'Idag betyder det mest att…'"
+          ],
+          [
+            "Skydda tid för det som känns meningsfullt – blocka kalendern.",
+            "Dela med dig av varför något känns viktigt – det förstärker motivationen."
+          ]
+        );
+
+        const comprehensibilityAdvice = levelAdvice(
+          comprehension,
+          [
+            "Bryt ner uppgifter i tre steg och gör bara det första idag.",
+            "Skapa en enkel dagstruktur: 'Först gör jag detta, sedan detta'.",
+            "Skriv vad du vet → vad du inte vet → vem som kan ge klarhet."
+          ],
+          [
+            "Gör en mental karta över veckan: tre huvudområden.",
+            "Identifiera en sak som är oklar och lös just den.",
+            "Förklara sammanhang för andra – det ökar din egen tydlighet."
+          ],
+          [
+            "Dokumentera din struktur och använd den som förklaringsmodell.",
+            "Planera på längre sikt när din begriplighet är hög.",
+            "Stärk andra genom att dela din överblick – det gynnar även dig."
+          ]
+        );
+
+        const manageabilityAdvice = levelAdvice(
+          manageability,
+          [
+            "Välj en sak du kan påverka idag och gör den.",
+            "Ta bort eller förenkla något i din dag (10–20% regeln).",
+            "Be konkret om stöd: 'Kan du hjälpa mig med X före kl 14?'"
+          ],
+          [
+            "Lägg in mikroåterhämtning: 3–5 min utan skärm.",
+            "Prioritera: vad är måste? vad är bra att göra?",
+            "Checka av: 'Har jag tid och energi för detta idag?'"
+          ],
+          [
+            "Ta dig an en lagom utmaning som känns viktig.",
+            "Planera återhämtning även när du känner kontroll.",
+            "Dela ansvar – stärker upplevd gemensam hanterbarhet."
+          ]
+        );
+
+        const dims = [
+          { key: "meningsfullhet", value: meaning },
+          { key: "begriplighet", value: comprehension },
+          { key: "hanterbarhet", value: manageability }
+        ].sort((a, b) => a.value - b.value);
+
+        const lowest = dims[0];
+        const coachAdvice =
+          `Fokus idag: din ${lowest.key}. Välj ett av råden i den rutan som känns mest konkret och gör det så enkelt att du med säkerhet genomför det.`;
+
+        return {
+          meaningfulness: meaningfulnessAdvice,
+          comprehensibility: comprehensibilityAdvice,
+          manageability: manageabilityAdvice,
+          coach: coachAdvice
+        };
+      }
+
+      function renderAdviceList(container, items) {
+        container.innerHTML = "";
+        items.forEach((text) => {
+          const li = document.createElement("li");
+          li.textContent = text;
+          container.appendChild(li);
+        });
+      }
+
+      function setLevelClass(card, level) {
+        card.classList.remove("level-low", "level-medium", "level-high");
+        card.classList.add(`level-${level}`);
+      }
+
+      function updateUI() {
+        const meaning = Number(meaningSlider.value);
+        const comprehension = Number(comprehensionSlider.value);
+        const manageability = Number(manageabilitySlider.value);
+
+        meaningValue.textContent = meaning;
+        comprehensionValue.textContent = comprehension;
+        manageabilityValue.textContent = manageability;
+
+        kasamSummary.textContent = getKasamSummary(
+          meaning,
+          comprehension,
+          manageability
+        );
+
+        const advice = getAdvice(meaning, comprehension, manageability);
+        console.log("Råd-objekt:", advice);
+
+        renderAdviceList(adviceMeaningEl, advice.meaningfulness);
+        renderAdviceList(adviceComprehensionEl, advice.comprehensibility);
+        renderAdviceList(adviceManageabilityEl, advice.manageability);
+
+        setLevelClass(cardMeaning, getLevel(meaning));
+        setLevelClass(cardComprehension, getLevel(comprehension));
+        setLevelClass(cardManageability, getLevel(manageability));
+
+        coachText.textContent = advice.coach;
+      }
+
+      [meaningSlider, comprehensionSlider, manageabilitySlider].forEach((slider) =>
+        slider.addEventListener("input", () => {
+          updateUI();
+          saveStatus.textContent = "";
+        })
+      );
+
+      saveBtn.addEventListener("click", () => {
+        const meaning = Number(meaningSlider.value);
+        const comprehension = Number(comprehensionSlider.value);
+        const manageability = Number(manageabilitySlider.value);
+
+        const date = saveTodayEntry(meaning, comprehension, manageability);
+        saveStatus.textContent = `Dagens KASAM sparad lokalt (${date}).`;
+      });
+
+      // Initiera UI
+      updateUI();
+    });
+  </script>
 </body>
 </html>
