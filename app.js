@@ -24,7 +24,14 @@ document.addEventListener("DOMContentLoaded", () => {
   const saveBtn = document.getElementById("save-btn");
   const saveStatus = document.getElementById("save-status");
 
+  const chartCanvas = document.getElementById("kasamChart");
+  const chartStatus = document.getElementById("chart-status");
+
+  const adviceStyleSelect = document.getElementById("advice-style");
+
   const STORAGE_KEY = "kasamLogV1";
+  const ADVICE_STYLE_KEY = "kasamAdviceStyleV1";
+  let kasamChart = null;
 
   // ===== LocalStorage (daglig logg) =====
 
@@ -59,6 +66,18 @@ document.addEventListener("DOMContentLoaded", () => {
     return d;
   }
 
+  function getSortedEntries() {
+    const log = loadLog();
+    const entries = Object.values(log);
+    entries.sort((a, b) => (a.date < b.date ? -1 : 1));
+    return entries;
+  }
+
+  function toDisplayDate(iso) {
+    const d = new Date(iso + "T00:00:00");
+    return d.toLocaleDateString("sv-SE", { month: "short", day: "numeric" });
+  }
+
   // ===== KASAM-logik =====
 
   function getLevel(value) {
@@ -80,7 +99,9 @@ document.addEventListener("DOMContentLoaded", () => {
     return `Din KASAM är hög idag (${avgRounded}/10). Notera vad som bidrar mest just nu – det blir din personliga skyddsfaktor framåt.`;
   }
 
-  function getAdvice(meaning, comprehension, manageability) {
+  // ===== Råd + rådstil =====
+
+  function getBaseAdvice(meaning, comprehension, manageability) {
     function levelAdvice(value, low, medium, high) {
       if (value <= 3) return low;
       if (value <= 7) return medium;
@@ -149,8 +170,59 @@ document.addEventListener("DOMContentLoaded", () => {
     ].sort((a, b) => a.value - b.value);
 
     const lowest = dims[0];
-    const coachAdvice =
+
+    const coachBalanced =
       `Fokus idag: din ${lowest.key}. Välj ett av råden i den rutan som känns mest konkret och gör det så enkelt att du med säkerhet genomför det.`;
+
+    const coachFactual =
+      `Ur ett mer faktabaserat perspektiv är din ${lowest.key} lägst idag. Välj ett råd som känns realistiskt utifrån din faktiska tid och energi, och se det som ett litet experiment.`;
+
+    const coachCoaching =
+      `Som coach skulle jag säga: ge lite extra vänlighet till din ${lowest.key} idag. Välj ett råd som känns snällt men ändå utmanande på en lagom nivå för dig.`;
+
+    return {
+      meaningfulness: meaningfulnessAdvice,
+      comprehensibility: comprehensibilityAdvice,
+      manageability: manageabilityAdvice,
+      coachBalanced,
+      coachFactual,
+      coachCoaching
+    };
+  }
+
+  function adaptTipsForStyle(tips, style, dimensionLabel) {
+    if (style === "factual") {
+      return tips.map(t => `Faktaperspektiv (${dimensionLabel}): ${t}`);
+    }
+    if (style === "coaching") {
+      return tips.map(t => `Coachande perspektiv (${dimensionLabel}): ${t}`);
+    }
+    // balanced
+    return tips;
+  }
+
+  function getAdvice(meaning, comprehension, manageability, style) {
+    const base = getBaseAdvice(meaning, comprehension, manageability);
+
+    const meaningfulnessAdvice = adaptTipsForStyle(
+      base.meaningfulness,
+      style,
+      "meningsfullhet"
+    );
+    const comprehensibilityAdvice = adaptTipsForStyle(
+      base.comprehensibility,
+      style,
+      "begriplighet"
+    );
+    const manageabilityAdvice = adaptTipsForStyle(
+      base.manageability,
+      style,
+      "hanterbarhet"
+    );
+
+    let coachAdvice = base.coachBalanced;
+    if (style === "factual") coachAdvice = base.coachFactual;
+    if (style === "coaching") coachAdvice = base.coachCoaching;
 
     return {
       meaningfulness: meaningfulnessAdvice,
@@ -163,10 +235,6 @@ document.addEventListener("DOMContentLoaded", () => {
   // ===== UI =====
 
   function renderAdviceList(container, items) {
-    if (!container) {
-      console.warn("Saknar container för råd:", container);
-      return;
-    }
     container.innerHTML = "";
     items.forEach((text) => {
       const li = document.createElement("li");
@@ -176,15 +244,24 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function setLevelClass(card, level) {
-    if (!card) return;
     card.classList.remove("level-low", "level-medium", "level-high");
     card.classList.add(`level-${level}`);
+  }
+
+  function getCurrentAdviceStyle() {
+    const styleFromSelect = adviceStyleSelect ? adviceStyleSelect.value : null;
+    if (styleFromSelect) return styleFromSelect;
+
+    const stored = localStorage.getItem(ADVICE_STYLE_KEY);
+    return stored || "balanced";
   }
 
   function updateUI() {
     const meaning = Number(meaningSlider.value);
     const comprehension = Number(comprehensionSlider.value);
     const manageability = Number(manageabilitySlider.value);
+
+    const style = getCurrentAdviceStyle();
 
     meaningValue.textContent = meaning;
     comprehensionValue.textContent = comprehension;
@@ -196,7 +273,7 @@ document.addEventListener("DOMContentLoaded", () => {
       manageability
     );
 
-    const advice = getAdvice(meaning, comprehension, manageability);
+    const advice = getAdvice(meaning, comprehension, manageability, style);
     console.log("Råd-objekt:", advice);
 
     renderAdviceList(adviceMeaningEl, advice.meaningfulness);
@@ -207,12 +284,126 @@ document.addEventListener("DOMContentLoaded", () => {
     setLevelClass(cardComprehension, getLevel(comprehension));
     setLevelClass(cardManageability, getLevel(manageability));
 
-    if (coachText) {
-      coachText.textContent = advice.coach;
+    coachText.textContent = advice.coach;
+  }
+
+  // ===== Graf =====
+
+  function renderChart() {
+    const entries = getSortedEntries();
+    console.log("Antal loggade poster:", entries.length, entries);
+
+    if (!chartStatus) {
+      console.warn("chartStatus-element saknas.");
+    }
+
+    if (!entries.length) {
+      if (kasamChart) {
+        kasamChart.destroy();
+        kasamChart = null;
+      }
+      if (chartStatus) {
+        chartStatus.textContent = "Ingen data ännu – spara minst en dags KASAM för att se grafen.";
+      }
+      return;
+    }
+
+    if (!chartCanvas) {
+      console.warn("Canvas för graf saknas.");
+      if (chartStatus) chartStatus.textContent = "Kunde inte hitta grafikytan (canvas).";
+      return;
+    }
+
+    if (typeof Chart === "undefined") {
+      console.warn("Chart.js verkar inte vara laddat.");
+      if (chartStatus) chartStatus.textContent = "Grafbiblioteket (Chart.js) kunde inte laddas. Kontrollera din internetanslutning.";
+      return;
+    }
+
+    if (chartStatus) chartStatus.textContent = "";
+
+    const labels = entries.map((e) => toDisplayDate(e.date));
+    const meaningData = entries.map((e) => e.meaning);
+    const comprehensionData = entries.map((e) => e.comprehension);
+    const manageabilityData = entries.map((e) => e.manageability);
+
+    const data = {
+      labels,
+      datasets: [
+        {
+          label: "Meningsfullhet",
+          data: meaningData,
+          borderColor: "#22c55e",
+          backgroundColor: "rgba(34, 197, 94, 0.2)",
+          tension: 0.2,
+        },
+        {
+          label: "Begriplighet",
+          data: comprehensionData,
+          borderColor: "#38bdf8",
+          backgroundColor: "rgba(56, 189, 248, 0.2)",
+          tension: 0.2,
+        },
+        {
+          label: "Hanterbarhet",
+          data: manageabilityData,
+          borderColor: "#a855f7",
+          backgroundColor: "rgba(168, 85, 247, 0.2)",
+          tension: 0.2,
+        },
+      ],
+    };
+
+    const options = {
+      responsive: true,
+      plugins: {
+        legend: {
+          labels: { color: "#e5e7eb" },
+        },
+      },
+      scales: {
+        x: {
+          ticks: { color: "#9ca3af" },
+          grid: { color: "rgba(75, 85, 99, 0.4)" },
+        },
+        y: {
+          min: 0,
+          max: 10,
+          ticks: { stepSize: 2, color: "#9ca3af" },
+          grid: { color: "rgba(75, 85, 99, 0.4)" },
+        },
+      },
+    };
+
+    if (kasamChart) {
+      kasamChart.data = data;
+      kasamChart.options = options;
+      kasamChart.update();
+    } else {
+      kasamChart = new Chart(chartCanvas, {
+        type: "line",
+        data,
+        options,
+      });
     }
   }
 
-  // Events
+  // ===== Rådstil – init & events =====
+
+  function initAdviceStyle() {
+    const stored = localStorage.getItem(ADVICE_STYLE_KEY);
+    const initial = stored || "balanced";
+    if (adviceStyleSelect) {
+      adviceStyleSelect.value = initial;
+      adviceStyleSelect.addEventListener("change", () => {
+        const value = adviceStyleSelect.value || "balanced";
+        localStorage.setItem(ADVICE_STYLE_KEY, value);
+        updateUI();
+      });
+    }
+  }
+
+  // Events sliders & spara
 
   [meaningSlider, comprehensionSlider, manageabilitySlider].forEach((slider) =>
     slider.addEventListener("input", () => {
@@ -227,9 +418,12 @@ document.addEventListener("DOMContentLoaded", () => {
     const manageability = Number(manageabilitySlider.value);
 
     const date = saveTodayEntry(meaning, comprehension, manageability);
-    saveStatus.textContent = `Dagens KASAM sparad (${date}).`;
+    saveStatus.textContent = `Dagens KASAM sparad lokalt (${date}).`;
+    renderChart();
   });
 
   // Init
+  initAdviceStyle();
   updateUI();
+  renderChart();
 });
