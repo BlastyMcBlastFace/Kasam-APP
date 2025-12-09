@@ -63,10 +63,40 @@ p {
 
 input[type="range"] {
   width: 100%;
-  accent-color: #22c55e; /* modern browsers */
+  accent-color: #22c55e;
 }
 
-.summary, .advice {
+.primary-btn {
+  margin-top: 0.5rem;
+  padding: 0.6rem 1rem;
+  border-radius: 999px;
+  border: none;
+  cursor: pointer;
+  font-size: 0.95rem;
+  font-weight: 600;
+  background: linear-gradient(135deg, #22c55e, #16a34a);
+  color: #020617;
+  align-self: flex-start;
+  box-shadow: 0 10px 20px rgba(22, 163, 74, 0.4);
+  transition: transform 0.05s ease, box-shadow 0.05s ease, opacity 0.15s ease;
+}
+
+.primary-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 14px 24px rgba(22, 163, 74, 0.5);
+}
+
+.primary-btn:active {
+  transform: translateY(1px);
+  box-shadow: 0 6px 12px rgba(22, 163, 74, 0.4);
+}
+
+.status-text {
+  font-size: 0.8rem;
+  color: #a5b4fc;
+}
+
+.summary, .advice, .history {
   background: rgba(15, 23, 42, 0.8);
   border-radius: 1rem;
   padding: 1rem;
@@ -80,6 +110,11 @@ input[type="range"] {
 
 #advice-list li {
   margin-bottom: 0.3rem;
+}
+
+.history-text {
+  font-size: 0.9rem;
+  color: #9ca3af;
 }
 
 footer {
