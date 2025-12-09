@@ -8,7 +8,16 @@ document.addEventListener("DOMContentLoaded", () => {
   const manageabilityValue = document.getElementById("manageability-value");
 
   const kasamSummary = document.getElementById("kasam-summary");
-  const adviceList = document.getElementById("advice-list");
+
+  const adviceMeaningEl = document.getElementById("advice-meaning");
+  const adviceComprehensionEl = document.getElementById("advice-comprehension");
+  const adviceManageabilityEl = document.getElementById("advice-manageability");
+
+  const cardMeaning = document.getElementById("card-meaning");
+  const cardComprehension = document.getElementById("card-comprehension");
+  const cardManageability = document.getElementById("card-manageability");
+
+  const coachText = document.getElementById("coach-text");
 
   const saveBtn = document.getElementById("save-btn");
   const saveStatus = document.getElementById("save-status");
@@ -16,10 +25,11 @@ document.addEventListener("DOMContentLoaded", () => {
   const chartCanvas = document.getElementById("kasamChart");
 
   const STORAGE_KEY = "kasamLogV1";
-
   let kasamChart = null;
 
-  // --- Hjälpfunktioner för logg / datum ---
+  console.log("KASAM-app initieras…");
+
+  // --- Datum / logg-hjälpare ---
 
   function todayISODate() {
     return new Date().toISOString().slice(0, 10); // YYYY-MM-DD
@@ -77,91 +87,117 @@ document.addEventListener("DOMContentLoaded", () => {
     return "high";
   }
 
-  function getAdvice(meaning, comprehension, manageability) {
-    const tips = [];
-
-    const mLevel = getLevel(meaning);
-    const cLevel = getLevel(comprehension);
-    const hLevel = getLevel(manageability);
-
-    // Meningsfullhet – fokus på värderingar och känsla av syfte
-    if (mLevel === "low") {
-      tips.push(
-        "Forskning om välbefinnande visar att små, värderingsstyrda handlingar har stor effekt på sikt. Välj en liten sak idag som ligger nära dina värderingar (t.ex. hjälpa någon, bidra i ett projekt du bryr dig om).",
-        "Skriv ned en mening eller påminnelse om varför det du gör i vardagen spelar roll – för dig själv, för andra eller för något större."
-      );
-    } else if (mLevel === "medium") {
-      tips.push(
-        "Identifiera ett tillfälle idag som kändes meningsfullt. Vad i situationen gjorde att det kändes så? Planera in fler liknande stunder kommande dagar."
-      );
-    } else {
-      tips.push(
-        "När meningsfullheten är hög är det värdefullt att 'bygga skyddsräcken'. Blocka tid i kalendern för det som är viktigast och var medveten om vad du säger ja respektive nej till."
-      );
-    }
-
-    // Begriplighet – struktur, förutsägbarhet, kognitiv överblick
-    if (cLevel === "low") {
-      tips.push(
-        "KASAM-forskning betonar att förutsägbarhet minskar stress. Gör en enkel dagplan med max 3 viktigaste saker och ungefär när du gör dem.",
-        "Välj en situation som känns rörig och skriv upp vad du faktiskt vet, vad du inte vet och vem du kan fråga för att reda ut det."
-      );
-    } else if (cLevel === "medium") {
-      tips.push(
-        "Försök göra en 'mental karta' över dagen eller veckan. Sätt ord på var osäkerheten finns och planera ett litet steg för att öka klarheten (t.ex. ett mail, ett kort avstämningsmöte)."
-      );
-    } else {
-      tips.push(
-        "Du har en god kognitiv överblick just nu. Använd den till att skapa tydlighet även för andra – att förklara sammanhang högt brukar också stärka din egen begriplighet."
-      );
-    }
-
-    // Hanterbarhet – resurser, stöd, kontroll
-    if (hLevel === "low") {
-      tips.push(
-        "Studier kring stresshantering visar att upplevd kontroll är central. Välj en konkret sak du kan påverka idag (t.ex. prioritera om, minska omfattningen på en uppgift, be någon om hjälp).",
-        "Fundera: vad kan jag ta bort, förenkla eller skjuta upp utan större konsekvenser? Att minska belastning är också ett aktivt, ansvarsfullt val."
-      );
-    } else if (hLevel === "medium") {
-      tips.push(
-        "Planera in en kort återhämtningspaus där du faktiskt byter miljö eller aktivitet (t.ex. kort promenad, andningspaus, stänga ner skärmar i 5 minuter). Små pauser skyddar hanterbarheten över tid."
-      );
-    } else {
-      tips.push(
-        "När du känner hög hanterbarhet är det ett bra läge att ta dig an en meningsfull utmaning. Sätt en tydlig gräns för hur mycket tid/energi den får ta så att balansen bevaras."
-      );
-    }
-
-    // Extra coachande metatips, baserat på svagaste dimensionen
-    const dims = [
-      { key: "Meningsfullhet", value: meaning },
-      { key: "Begriplighet", value: comprehension },
-      { key: "Hanterbarhet", value: manageability },
-    ];
-    dims.sort((a, b) => a.value - b.value);
-    const lowest = dims[0];
-
-    tips.push(
-      `Coach-perspektiv: Den dimension som just nu ser svagast ut är ${lowest.key.toLowerCase()}. Välj ett av tipsen ovan och formulera det som ett konkret steg du faktiskt kan göra idag. Gör det så litet att det nästan känns för enkelt – då ökar chansen att du verkligen gör det.`
-    );
-
-    return tips;
-  }
-
   function getKasamSummary(meaning, comprehension, manageability) {
     const avg = (meaning + comprehension + manageability) / 3;
     const avgRounded = avg.toFixed(1);
 
     if (avg <= 3) {
-      return `Din samlade KASAM-nivå (${avgRounded}/10) känns låg idag. Forskning visar att små, konsekventa steg är mer hållbara än stora ryck – välj 1–2 tips att testa, det räcker.`;
+      return `Din samlade KASAM-nivå (${avgRounded}/10) känns låg idag. Små, konsekventa steg är mer hållbara än stora ryck – välj 1–2 råd att testa.`;
     }
     if (avg <= 7) {
-      return `Din KASAM (${avgRounded}/10) ligger på en mellannivå. Du har delar som fungerar och några som kan stärkas. Se dagens tips som experiment, inte som krav.`;
+      return `Din KASAM (${avgRounded}/10) ligger på en mellannivå. Du har delar som fungerar och några som kan stärkas. Se tipsen som experiment, inte krav.`;
     }
-    return `Din KASAM är hög idag (${avgRounded}/10). Reflektera över vad som bidrar mest just nu – det är din personliga 'skyddsfaktor' som du kan återvända till när det blir tuffare.`;
+    return `Din KASAM är hög idag (${avgRounded}/10). Notera vad som bidrar mest just nu – det blir din personliga skyddsfaktor framåt.`;
   }
 
-  // --- UI-uppdatering ---
+  // --- Råd per dimension ---
+
+  function getAdvice(meaning, comprehension, manageability) {
+    function levelAdvice(value, low, medium, high) {
+      if (value <= 3) return low;
+      if (value <= 7) return medium;
+      return high;
+    }
+
+    const meaningfulnessAdvice = levelAdvice(
+      meaning,
+      [
+        "Välj en liten aktivitet idag som ligger nära dina värderingar.",
+        "Fundera på vad som skulle göra dagen 5% mer meningsfull.",
+        "Skriv ned varför något du gör den här veckan spelar roll."
+      ],
+      [
+        "Identifiera när du känt mest energi idag och planera in mer av det.",
+        "Formulera dagens viktigaste mening: 'Idag betyder det mest att…'"
+      ],
+      [
+        "Skydda tid för det som känns meningsfullt – blocka kalendern.",
+        "Dela med dig av varför något känns viktigt – det förstärker motivationen."
+      ]
+    );
+
+    const comprehensibilityAdvice = levelAdvice(
+      comprehension,
+      [
+        "Bryt ner uppgifter i tre steg och gör bara det första idag.",
+        "Skapa en enkel dagstruktur: 'Först gör jag detta, sedan detta'.",
+        "Skriv vad du vet → vad du inte vet → vem som kan ge klarhet."
+      ],
+      [
+        "Gör en mental karta över veckan: tre huvudområden.",
+        "Identifiera en sak som är oklar och lös just den.",
+        "Förklara sammanhang för andra – det ökar din egen tydlighet."
+      ],
+      [
+        "Dokumentera din struktur och använd den som förklaringsmodell.",
+        "Planera på längre sikt när din begriplighet är hög.",
+        "Stärk andra genom att dela din överblick – det gynnar även dig."
+      ]
+    );
+
+    const manageabilityAdvice = levelAdvice(
+      manageability,
+      [
+        "Välj en sak du kan påverka idag och gör den.",
+        "Ta bort eller förenkla något i din dag (10–20% regeln).",
+        "Be konkret om stöd: 'Kan du hjälpa mig med X före kl 14?'"
+      ],
+      [
+        "Lägg in mikroåterhämtning: 3–5 min utan skärm.",
+        "Prioritera: vad är måste? vad är bra att göra?",
+        "Checka av: 'Har jag tid och energi för detta idag?'"
+      ],
+      [
+        "Ta dig an en lagom utmaning som känns viktig.",
+        "Planera återhämtning även när du känner kontroll.",
+        "Dela ansvar – stärker upplevd gemensam hanterbarhet."
+      ]
+    );
+
+    // Coach-perspektiv: svagaste dimensionen
+    const dims = [
+      { key: "meningsfullhet", value: meaning },
+      { key: "begriplighet", value: comprehension },
+      { key: "hanterbarhet", value: manageability }
+    ].sort((a, b) => a.value - b.value);
+
+    const lowest = dims[0];
+    const coachAdvice =
+      `Fokus idag: din ${lowest.key}. Välj ett av råden i den rutan som känns mest konkret och gör det så enkelt att du med säkerhet genomför det.`;
+
+    return {
+      meaningfulness: meaningfulnessAdvice,
+      comprehensibility: comprehensibilityAdvice,
+      manageability: manageabilityAdvice,
+      coach: coachAdvice
+    };
+  }
+
+  // --- UI-uppdatering av råd ---
+
+  function renderAdviceList(container, items) {
+    container.innerHTML = "";
+    items.forEach((text) => {
+      const li = document.createElement("li");
+      li.textContent = text;
+      container.appendChild(li);
+    });
+  }
+
+  function setLevelClass(card, level) {
+    card.classList.remove("level-low", "level-medium", "level-high");
+    card.classList.add(`level-${level}`);
+  }
 
   function updateUI() {
     const meaning = Number(meaningSlider.value);
@@ -178,17 +214,20 @@ document.addEventListener("DOMContentLoaded", () => {
       manageability
     );
 
-    const tips = getAdvice(meaning, comprehension, manageability);
+    const advice = getAdvice(meaning, comprehension, manageability);
 
-    const ul = document.createElement("ul");
-    tips.forEach((tip) => {
-      const li = document.createElement("li");
-      li.textContent = tip;
-      ul.appendChild(li);
-    });
+    // Rendera listor per dimension
+    renderAdviceList(adviceMeaningEl, advice.meaningfulness);
+    renderAdviceList(adviceComprehensionEl, advice.comprehensibility);
+    renderAdviceList(adviceManageabilityEl, advice.manageability);
 
-    adviceList.innerHTML = "";
-    adviceList.appendChild(ul);
+    // Färgkoda korten
+    setLevelClass(cardMeaning, getLevel(meaning));
+    setLevelClass(cardComprehension, getLevel(comprehension));
+    setLevelClass(cardManageability, getLevel(manageability));
+
+    // Coach-text
+    coachText.textContent = advice.coach;
   }
 
   // --- Diagram ---
@@ -200,6 +239,11 @@ document.addEventListener("DOMContentLoaded", () => {
         kasamChart.destroy();
         kasamChart = null;
       }
+      return;
+    }
+
+    if (!chartCanvas || typeof Chart === "undefined") {
+      console.warn("Chart.js saknas eller canvas hittas inte – hoppar över grafen.");
       return;
     }
 
@@ -285,7 +329,7 @@ document.addEventListener("DOMContentLoaded", () => {
   [meaningSlider, comprehensionSlider, manageabilitySlider].forEach((slider) =>
     slider.addEventListener("input", () => {
       updateUI();
-      saveStatus.textContent = ""; // rensa ev. gammalt meddelande
+      saveStatus.textContent = "";
     })
   );
 
@@ -299,7 +343,7 @@ document.addEventListener("DOMContentLoaded", () => {
     saveStatus.textContent = `Dagens KASAM sparad (${date}).`;
   });
 
-  // Initiera UI och diagram vid start
+  // Initiera
   updateUI();
   renderChart();
 });
