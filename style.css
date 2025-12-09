@@ -55,6 +55,10 @@ p {
   gap: 1rem;
 }
 
+.slider-group {
+  position: relative;
+}
+
 .slider-group label {
   display: flex;
   justify-content: space-between;
@@ -117,7 +121,7 @@ input[type="range"] {
   color: #9ca3af;
 }
 
-/* --- Info-knapp & modal --- */
+/* --- Info-ikoner & små popups --- */
 
 .info-icon {
   margin-left: 0.4rem;
@@ -139,58 +143,29 @@ input[type="range"] {
   background: #111827;
 }
 
-.info-overlay {
-  position: fixed;
-  inset: 0;
-  background: rgba(15, 23, 42, 0.75);
+.info-box {
   display: none;
-  align-items: center;
-  justify-content: center;
-  z-index: 50;
-}
-
-.info-overlay.open {
-  display: flex;
-}
-
-.info-modal {
-  background: #020617;
-  border-radius: 0.75rem;
-  padding: 1rem 1.25rem;
-  max-width: 420px;
-  width: 90%;
+  margin-top: 0.35rem;
+  padding: 0.5rem 0.6rem;
+  border-radius: 0.5rem;
+  background: rgba(15, 23, 42, 0.98);
   border: 1px solid #4b5563;
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.7);
-  font-size: 0.9rem;
+  font-size: 0.8rem;
+  color: #cbd5f5;
 }
 
-.info-modal-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 0.5rem;
+.info-box.open {
+  display: block;
 }
 
-.info-modal h2 {
-  margin: 0;
-  font-size: 1rem;
+.info-box strong {
+  display: block;
+  margin-bottom: 0.25rem;
 }
 
-.close-info {
-  border: none;
-  background: transparent;
-  color: #e5e7eb;
-  font-size: 1.4rem;
-  cursor: pointer;
-  padding: 0 0 0.1rem 0.4rem;
-}
-
-.info-modal p {
-  margin-bottom: 0.45rem;
-}
-
-.info-modal ul {
-  padding-left: 1.1rem;
+.info-box ul {
+  padding-left: 1rem;
+  margin-top: 0.15rem;
 }
 
 /* --- Råd-layout --- */
