@@ -14,8 +14,8 @@
       <h1>KASAM – Daglig check-in</h1>
       <p>
         Skatta din dag på <strong>meningsfullhet</strong>, <strong>begriplighet</strong>
-        och <strong>hanterbarhet</strong>. Få direkt, faktabaserade och coachande tips
-        för att stärka din känsla av sammanhang.
+        och <strong>hanterbarhet</strong>. Få separata råd per dimension, plus ett
+        coachande fokus baserat på var du behöver mest stöd.
       </p>
     </header>
 
@@ -51,21 +51,42 @@
     </section>
 
     <section class="advice">
-      <h2>Faktabaserade, coachande råd</h2>
-      <div id="advice-list"></div>
+      <h2>Råd per KASAM-dimension</h2>
+
+      <div class="advice-grid">
+        <div class="advice-card" id="card-meaning">
+          <h3>Meningsfullhet</h3>
+          <ul class="advice-list" id="advice-meaning"></ul>
+        </div>
+
+        <div class="advice-card" id="card-comprehension">
+          <h3>Begriplighet</h3>
+          <ul class="advice-list" id="advice-comprehension"></ul>
+        </div>
+
+        <div class="advice-card" id="card-manageability">
+          <h3>Hanterbarhet</h3>
+          <ul class="advice-list" id="advice-manageability"></ul>
+        </div>
+      </div>
+
+      <div class="coach">
+        <h3>Coachande fokus</h3>
+        <p id="coach-text"></p>
+      </div>
     </section>
 
     <section class="history">
       <h2>Historik & utveckling</h2>
       <p class="history-text">
-        Här ser du hur dina KASAM-dimensioner har utvecklats över tid.  
-        Rådet är att följa trenden snarare än enskilda dagar.
+        Här ser du hur dina KASAM-dimensioner har utvecklats över tid.
+        Fokusera på trenden, inte enskilda dagar.
       </p>
       <canvas id="kasamChart" height="220"></canvas>
     </section>
 
     <footer>
-      <p>Version 2.0 – prototyp med daglig loggning och grafer via LocalStorage.</p>
+      <p>Version 3.0 – separata råd per dimension, daglig loggning och grafer.</p>
     </footer>
   </main>
 
