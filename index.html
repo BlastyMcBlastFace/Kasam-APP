@@ -291,10 +291,11 @@
         Fokusera på trenden över tid snarare än enskilda dagar.
       </p>
       <canvas id="kasamChart" height="220"></canvas>
+      <p id="chart-status" class="status-text"></p>
     </section>
 
     <footer>
-      <p>Version 4.0 – separata råd per dimension, daglig loggning och graf över utvecklingen.</p>
+      <p>Version 4.1 – separata råd per dimension, daglig loggning och graf med statustext.</p>
     </footer>
   </main>
 
@@ -326,6 +327,7 @@
       const saveStatus = document.getElementById("save-status");
 
       const chartCanvas = document.getElementById("kasamChart");
+      const chartStatus = document.getElementById("chart-status");
 
       const STORAGE_KEY = "kasamLogV1";
       let kasamChart = null;
@@ -525,18 +527,36 @@
 
       function renderChart() {
         const entries = getSortedEntries();
+        console.log("Antal loggade poster:", entries.length, entries);
+
+        if (!chartStatus) {
+          console.warn("chartStatus-element saknas.");
+        }
+
         if (!entries.length) {
           if (kasamChart) {
             kasamChart.destroy();
             kasamChart = null;
           }
+          if (chartStatus) {
+            chartStatus.textContent = "Ingen data ännu – spara minst en dags KASAM för att se grafen.";
+          }
           return;
         }
 
-        if (!chartCanvas || typeof Chart === "undefined") {
-          console.warn("Chart.js saknas eller canvas hittas inte – hoppar över grafen.");
+        if (!chartCanvas) {
+          console.warn("Canvas för graf saknas.");
+          if (chartStatus) chartStatus.textContent = "Kunde inte hitta grafikytan (canvas).";
           return;
         }
+
+        if (typeof Chart === "undefined") {
+          console.warn("Chart.js verkar inte vara laddat.");
+          if (chartStatus) chartStatus.textContent = "Grafbiblioteket (Chart.js) kunde inte laddas. Kontrollera din internetanslutning.";
+          return;
+        }
+
+        if (chartStatus) chartStatus.textContent = "";
 
         const labels = entries.map((e) => toDisplayDate(e.date));
         const meaningData = entries.map((e) => e.meaning);
