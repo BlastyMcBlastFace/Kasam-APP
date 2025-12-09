@@ -117,7 +117,7 @@ input[type="range"] {
   color: #9ca3af;
 }
 
-/* --- Info-ikoner & info-boxar --- */
+/* --- Info-knapp & modal --- */
 
 .info-icon {
   margin-left: 0.4rem;
@@ -139,29 +139,58 @@ input[type="range"] {
   background: #111827;
 }
 
-.info-box {
+.info-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.75);
   display: none;
-  margin-top: 0.35rem;
-  padding: 0.5rem 0.6rem;
-  border-radius: 0.5rem;
-  background: rgba(15, 23, 42, 0.95);
-  border-left: 3px solid #64748b;
-  font-size: 0.8rem;
-  color: #cbd5f5;
+  align-items: center;
+  justify-content: center;
+  z-index: 50;
 }
 
-.info-box.open {
-  display: block;
+.info-overlay.open {
+  display: flex;
 }
 
-.info-box strong {
-  display: block;
-  margin-bottom: 0.25rem;
+.info-modal {
+  background: #020617;
+  border-radius: 0.75rem;
+  padding: 1rem 1.25rem;
+  max-width: 420px;
+  width: 90%;
+  border: 1px solid #4b5563;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.7);
+  font-size: 0.9rem;
 }
 
-.info-box ul {
-  padding-left: 1rem;
-  margin-top: 0.15rem;
+.info-modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+.info-modal h2 {
+  margin: 0;
+  font-size: 1rem;
+}
+
+.close-info {
+  border: none;
+  background: transparent;
+  color: #e5e7eb;
+  font-size: 1.4rem;
+  cursor: pointer;
+  padding: 0 0 0.1rem 0.4rem;
+}
+
+.info-modal p {
+  margin-bottom: 0.45rem;
+}
+
+.info-modal ul {
+  padding-left: 1.1rem;
 }
 
 /* --- Råd-layout --- */
