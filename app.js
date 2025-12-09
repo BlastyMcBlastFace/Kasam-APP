@@ -29,6 +29,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const adviceStyleSelect = document.getElementById("advice-style");
 
+  const infoButtons = document.querySelectorAll(".info-icon");
+  const infoBoxes = document.querySelectorAll(".info-box");
+
   const STORAGE_KEY = "kasamLogV1";
   const ADVICE_STYLE_KEY = "kasamAdviceStyleV1";
   let kasamChart = null;
@@ -403,6 +406,27 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
+  // ===== Info-popups =====
+
+  function initInfoPopups() {
+    if (!infoButtons.length) return;
+
+    infoButtons.forEach((btn) => {
+      btn.addEventListener("click", () => {
+        const key = btn.dataset.info;
+        const targetId = "info-" + key;
+
+        infoBoxes.forEach((box) => {
+          if (box.id === targetId) {
+            box.classList.toggle("open");
+          } else {
+            box.classList.remove("open");
+          }
+        });
+      });
+    });
+  }
+
   // Events sliders & spara
 
   [meaningSlider, comprehensionSlider, manageabilitySlider].forEach((slider) =>
@@ -424,6 +448,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Init
   initAdviceStyle();
+  initInfoPopups();
   updateUI();
   renderChart();
 });
