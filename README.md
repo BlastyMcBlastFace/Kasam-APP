@@ -106,34 +106,3 @@ Välj source: /root
 
 Spara – URL genereras automatiskt
 
-💡 Framtida förbättringar (förslag)
-
-Personlig dagbok kopplad till KASAM-värden
-
-Exportera logg till CSV
-
-Push-påminnelser via PWA
-
-Mörkt / ljust tema
-
-AI-genererade råd baserat på användarhistorik
-
-Om du vill kan jag ta fram färdiga implementationer för dessa.
-
-🙌 Licens
-
-MIT License – fritt att kopiera, ändra och bygga vidare.
-
-🎯 Syfte
-
-Målet är att skapa ett enkelt, forskningsbaserat och användarvänligt verktyg för att:
-
-öka självinsikt
-
-identifiera vad som stärker respektive utmanar ens välbefinnande
-
-stimulera ett mer reflekterande, hållbart vardagstempo
-
-ge coachande stöd utan att bli påträngande
-
-Appen är perfekt både för individuell användning och arbetsrelaterad reflektion, t.ex. inom ledarskap, teamutveckling eller stresshantering.# Kasam-APP
