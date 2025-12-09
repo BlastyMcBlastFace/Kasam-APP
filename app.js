@@ -451,4 +451,17 @@ document.addEventListener("DOMContentLoaded", () => {
   initInfoPopups();
   updateUI();
   renderChart();
+
+  // Service worker-registrering (för PWA)
+  if ("serviceWorker" in navigator) {
+    navigator.serviceWorker
+      .register("sw.js")
+      .then((reg) => {
+        console.log("Service worker registrerad:", reg.scope);
+      })
+      .catch((err) => {
+        console.log("Service worker-registrering misslyckades:", err);
+      });
+  }
 });
+
