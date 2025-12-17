@@ -150,7 +150,7 @@ document.addEventListener("DOMContentLoaded", () => {
       [
         "Gör en mental karta över veckan: tre huvudområden.",
         "Identifiera en sak som är oklar och bestäm ett litet nästa steg (ställa en fråga, boka ett möte, läsa in dig)",
-        "Sammanfatta ett möte eller en dag för dig själv i tre punkter: “Det här hände – det här betyder det – det här blir nästa steg.”,
+        "Sammanfatta ett möte eller en dag för dig själv i tre punkter: “Det här hände – det här betyder det – det här blir nästa steg.”",
         "Om något känns halvtydligt: fråga “Vad är syftet med det här?” – syfte ökar ofta begripligheten.",
         "Förklara en process eller en uppgift för någon annan – när du förklarar för någon annan brukar din egen bild bli tydligare."
       ],
@@ -488,6 +488,7 @@ document.addEventListener("DOMContentLoaded", () => {
       });
   }
 });
+
 
 
 
