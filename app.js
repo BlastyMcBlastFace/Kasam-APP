@@ -32,8 +32,6 @@ document.addEventListener("DOMContentLoaded", () => {
   const infoButtons = document.querySelectorAll(".info-icon");
   const infoBoxes = document.querySelectorAll(".info-box");
 
-  const adviceHeaders = document.querySelectorAll(".advice-header");
-
   const STORAGE_KEY = "kasamLogV1";
   const ADVICE_STYLE_KEY = "kasamAdviceStyleV1";
   let kasamChart = null;
@@ -115,8 +113,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const meaningfulnessAdvice = levelAdvice(
       meaning,
-    const meaningfulnessAdvice = levelAdvice(
-      meaning,
       [
         "Välj en liten aktivitet idag som ligger nära dina värderingar.",
         "Fundera på vad som skulle göra dagen 5% mer meningsfull.",
@@ -153,14 +149,14 @@ document.addEventListener("DOMContentLoaded", () => {
       ],
       [
         "Gör en mental karta över veckan: tre huvudområden.",
-        "Identifiera en sak som är oklar och bestäm ett litet nästa steg (ställa en fråga, boka ett möte, läsa in dig)",
+        "Identifiera en sak som är oklar och bestäm ett litet nästa steg (ställa en fråga, boka ett möte, läsa in dig).",
         "Sammanfatta ett möte eller en dag för dig själv i tre punkter: “Det här hände – det här betyder det – det här blir nästa steg.”",
         "Om något känns halvtydligt: fråga “Vad är syftet med det här?” – syfte ökar ofta begripligheten.",
         "Förklara en process eller en uppgift för någon annan – när du förklarar för någon annan brukar din egen bild bli tydligare."
       ],
       [
         "Dokumentera din struktur och använd den som förklaringsmodell de dagar allt känns rörigt.",
-        "Planera på längre sikt när din begriplighet är hög, vad är viktigas kommande vecka/månad.",
+        "Planera på längre sikt när din begriplighet är hög: vad är viktigast kommande vecka/månad?",
         "Var tydlig med gränser runt din tid och ditt fokus – hög begriplighet är en resurs, inte något som ska täcka upp för alla andra.",
         "Stärk andra genom att dela din överblick – det gynnar även dig.",
         "Lägg in små “reality checks”: stämmer min bild med andras bild? Om inte – justera utan att anklaga dig själv."
@@ -172,7 +168,7 @@ document.addEventListener("DOMContentLoaded", () => {
       [
         "Lista allt som snurrar i huvudet – ringa in en sak du faktiskt kan påverka idag. Fokusera där!",
         "Skala ner en uppgift tills den känns löjligt liten – och gör bara den versionen. Det bygger känslan av “jag kan”.",
-        "Ta bort eller förenkla något i din dag, vad behöver jag göra nu?",
+        "Ta bort eller förenkla något i din dag – vad behöver jag göra nu?",
         "Be konkret om stöd: 'Kan du hjälpa mig med X före kl 14?'",
         "Om allt känns överväldigande: välj att göra klart en sak helt, istället för att göra lite på tio saker."
       ],
@@ -189,7 +185,7 @@ document.addEventListener("DOMContentLoaded", () => {
         "Se över din belastning – finns något du kan ta bort innan det blir för mycket, även om du “klarar det” nu?",
         "När andra ber om hjälp: känn efter vad du faktiskt har utrymme för att ta, så att din känsla av kontroll inte äts upp.",
         "Välj en lagom utmaning som känns rolig (inte bara plikttrogen) och se hur du kan göra den hållbar över tid.",
-        "Planera återhämtning även när du känner kontroll - hög hanterbarhet behöver underhållas.",
+        "Planera återhämtning även när du känner kontroll – hög hanterbarhet behöver underhållas.",
         "Dela ansvar – stärker upplevd gemensam hanterbarhet."
       ]
     );
@@ -455,41 +451,40 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
- function initAdviceCollapse() {
-  const cards = document.querySelectorAll(".advice-card");
-  console.log("initAdviceCollapse: hittade", cards.length, "kort");
+  // ===== Fällbara råd =====
 
-  if (!cards.length) return;
+  function initAdviceCollapse() {
+    const cards = document.querySelectorAll(".advice-card");
+    console.log("initAdviceCollapse: hittade", cards.length, "kort");
 
-  // Startläge: alla kort kollapsade
-  cards.forEach((card) => {
-    card.classList.add("collapsed");
-    card.classList.remove("expanded");
-    const icon = card.querySelector(".advice-toggle-icon");
-    if (icon) icon.textContent = "+";
+    if (!cards.length) return;
 
-    // Klick på hela kortet (inkl rubrik) togglar
-    card.addEventListener("click", (event) => {
-      // Om du vill begränsa till bara headern kan du göra:
-      // if (!event.target.closest(".advice-header")) return;
+    // Startläge: alla kort kollapsade
+    cards.forEach((card) => {
+      card.classList.add("collapsed");
+      card.classList.remove("expanded");
+      const icon = card.querySelector(".advice-toggle-icon");
+      if (icon) icon.textContent = "+";
 
-      const isCollapsed = card.classList.contains("collapsed");
-      const iconInner = card.querySelector(".advice-toggle-icon");
+      // Klick på hela kortet (inkl rubrik) togglar
+      card.addEventListener("click", () => {
+        const isCollapsed = card.classList.contains("collapsed");
+        const iconInner = card.querySelector(".advice-toggle-icon");
 
-      if (isCollapsed) {
-        card.classList.remove("collapsed");
-        card.classList.add("expanded");
-        if (iconInner) iconInner.textContent = "–";
-      } else {
-        card.classList.add("collapsed");
-        card.classList.remove("expanded");
-        if (iconInner) iconInner.textContent = "+";
-      }
+        if (isCollapsed) {
+          card.classList.remove("collapsed");
+          card.classList.add("expanded");
+          if (iconInner) iconInner.textContent = "–";
+        } else {
+          card.classList.add("collapsed");
+          card.classList.remove("expanded");
+          if (iconInner) iconInner.textContent = "+";
+        }
+      });
     });
-  });
-}
+  }
 
-  // Events sliders & spara
+  // ===== Events sliders & spara =====
 
   [meaningSlider, comprehensionSlider, manageabilitySlider].forEach((slider) =>
     slider.addEventListener("input", () => {
@@ -508,7 +503,7 @@ document.addEventListener("DOMContentLoaded", () => {
     renderChart();
   });
 
-  // Init
+  // ===== Init =====
   initAdviceStyle();
   initInfoPopups();
   initAdviceCollapse();
@@ -527,5 +522,3 @@ document.addEventListener("DOMContentLoaded", () => {
       });
   }
 });
-
-
