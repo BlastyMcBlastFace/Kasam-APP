@@ -32,6 +32,8 @@ document.addEventListener("DOMContentLoaded", () => {
   const infoButtons = document.querySelectorAll(".info-icon");
   const infoBoxes = document.querySelectorAll(".info-box");
 
+  const adviceHeaders = document.querySelectorAll(".advice-header");
+
   const STORAGE_KEY = "kasamLogV1";
   const ADVICE_STYLE_KEY = "kasamAdviceStyleV1";
   let kasamChart = null;
@@ -111,6 +113,8 @@ document.addEventListener("DOMContentLoaded", () => {
       return high;
     }
 
+    const meaningfulnessAdvice = levelAdvice(
+      meaning,
     const meaningfulnessAdvice = levelAdvice(
       meaning,
       [
@@ -451,6 +455,34 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
+  // ===== Fällbara råd =====
+
+  function initAdviceCollapse() {
+    if (!adviceHeaders.length) return;
+
+    adviceHeaders.forEach((header) => {
+      header.addEventListener("click", () => {
+        const card = header.closest(".advice-card");
+        if (!card) return;
+
+        const isCollapsed = card.classList.contains("collapsed");
+
+        // Stäng alla först (om du vill ha "en åt gången")
+        // Om du vill kunna ha flera öppna samtidigt, kommentera ut denna del.
+        document.querySelectorAll(".advice-card").forEach((c) => {
+          c.classList.add("collapsed");
+          c.classList.remove("expanded");
+        });
+
+        // Om den var kollapsad – öppna den, annars låt allt vara kollapsat
+        if (isCollapsed) {
+          card.classList.remove("collapsed");
+          card.classList.add("expanded");
+        }
+      });
+    });
+  }
+
   // Events sliders & spara
 
   [meaningSlider, comprehensionSlider, manageabilitySlider].forEach((slider) =>
@@ -473,6 +505,7 @@ document.addEventListener("DOMContentLoaded", () => {
   // Init
   initAdviceStyle();
   initInfoPopups();
+  initAdviceCollapse();
   updateUI();
   renderChart();
 
@@ -488,7 +521,3 @@ document.addEventListener("DOMContentLoaded", () => {
       });
   }
 });
-
-
-
-
