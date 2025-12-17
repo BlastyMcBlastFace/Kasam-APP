@@ -116,52 +116,76 @@ document.addEventListener("DOMContentLoaded", () => {
       [
         "Välj en liten aktivitet idag som ligger nära dina värderingar.",
         "Fundera på vad som skulle göra dagen 5% mer meningsfull.",
-        "Skriv ned varför något du gör denna vecka spelar roll."
+        "Titta på din kalender/att-göra-lista och markera en sak som faktiskt betyder något för någon annan. Lägg lite extra omsorg där.",
+        "Skriv ner tre saker som brukar ge dig mening (personer, sammanhang, aktiviteter) – se om du kan få in en av dem i veckan.",
+        "Prata med någon du litar på om vad som känns tomt just nu – bara att sätta ord på det kan öka känslan av sammanhang.",
+        "Om mycket känns meningslöst: välj att bara “testa” ett av råden som ett experiment, inte som ett krav."
       ],
       [
+        "Notera under dagen: när känner du lite mer energi eller närvaro? Skriv ned en kort rad om det.",
+        "Välj en återkommande uppgift och påminn dig själv: “Vem eller vad bidrar jag till genom det här?”,
         "Identifiera när du känt mest energi idag och planera in mer av det.",
-        "Formulera dagens viktigaste mening: 'Idag betyder det mest att…'"
+        "Justera en liten sak i vardagen så den ligger mer i linje med dina värderingar (t.ex. hur du startar dagen eller avslutar en arbetsuppgift).",
+        "Formulera dagens viktigaste mening: 'Idag betyder det mest att jag..., då känns dagen okej.'"
       ],
       [
+        "Skriv ned vad som gör att det känns meningsfullt just nu – det blir ett “minne” att gå tillbaka till när det dalar.",
         "Skydda tid för det som känns meningsfullt – blocka kalendern.",
-        "Dela med dig av varför något känns viktigt – det förstärker motivationen."
+        "Se om du kan använda din höga meningsfullhet för att stötta någon annan som har det tuffare – utan att tömma dig själv.",
+        "Dela din upplevelse av mening med någon annan – ofta klarnar den ännu mer när du sätter ord på den.",
+        "Planera in återhämtning även när meningen är hög, så att du inte “bränner” den på för mycket görande."
       ]
     );
 
     const comprehensibilityAdvice = levelAdvice(
       comprehension,
       [
+        "Be om konkret förtydligande: “Kan du ge ett exempel?” eller “Kan du säga samma sak med enklare ord?”.",
+        "Sätt ord på osäkerheten: “Just nu förstår jag inte X, och det gör att jag känner Y” – det minskar ofta känslan av kaos.",
+        "Välj en situation som känns rörig och försök beskriva den i max 3 meningar. Ofta blir den mer hanterlig bara av det.",
         "Bryt ner uppgifter i tre steg och gör bara det första idag.",
         "Skapa en enkel dagstruktur: 'Först gör jag detta, sedan detta'.",
         "Skriv vad du vet → vad du inte vet → vem som kan ge klarhet."
       ],
       [
         "Gör en mental karta över veckan: tre huvudområden.",
-        "Identifiera en sak som är oklar och lös just den.",
-        "Förklara sammanhang för andra – det ökar din egen tydlighet."
+        "Identifiera en sak som är oklar och bestäm ett litet nästa steg (ställa en fråga, boka ett möte, läsa in dig)",
+        "Sammanfatta ett möte eller en dag för dig själv i tre punkter: “Det här hände – det här betyder det – det här blir nästa steg.”,
+        "Om något känns halvtydligt: fråga “Vad är syftet med det här?” – syfte ökar ofta begripligheten.",
+        "Förklara en process eller en uppgift för någon annan – när du förklarar för någon annan brukar din egen bild bli tydligare."
       ],
       [
-        "Dokumentera din struktur och använd den som förklaringsmodell.",
-        "Planera på längre sikt när din begriplighet är hög.",
-        "Stärk andra genom att dela din överblick – det gynnar även dig."
+        "Dokumentera din struktur och använd den som förklaringsmodell de dagar allt känns rörigt.",
+        "Planera på längre sikt när din begriplighet är hög, vad är viktigas kommande vecka/månad.",
+        "Var tydlig med gränser runt din tid och ditt fokus – hög begriplighet är en resurs, inte något som ska täcka upp för alla andra.",
+        "Stärk andra genom att dela din överblick – det gynnar även dig.",
+        "Lägg in små “reality checks”: stämmer min bild med andras bild? Om inte – justera utan att anklaga dig själv."
       ]
     );
 
     const manageabilityAdvice = levelAdvice(
       manageability,
       [
-        "Välj en sak du kan påverka idag och gör den.",
-        "Ta bort eller förenkla något i din dag (10–20% regeln).",
-        "Be konkret om stöd: 'Kan du hjälpa mig med X före kl 14?'"
+        "Lista allt som snurrar i huvudet – ringa in en sak du faktiskt kan påverka idag. Fokusera där!",
+        "Skala ner en uppgift tills den känns löjligt liten – och gör bara den versionen. Det bygger känslan av “jag kan”.",
+        "Ta bort eller förenkla något i din dag, vad behöver jag göra nu?",
+        "Be konkret om stöd: 'Kan du hjälpa mig med X före kl 14?'",
+        "Om allt känns överväldigande: välj att göra klart en sak helt, istället för att göra lite på tio saker."
       ],
       [
+        "Prioritera dagen med tre etiketter: måste, bra, kan vänta – flytta något från måste till “kan vänta” om det går.",
         "Lägg in mikroåterhämtning: 3–5 min utan skärm.",
-        "Prioritera: vad är måste? vad är bra att göra?",
-        "Checka av: 'Har jag tid och energi för detta idag?'"
+        "Lägg in små “checkpoint-frågor” under dagen: “Hur är min energi just nu?”, “Vad är mest hjälpsamt att göra nu?”.",
+        "Checka av: 'Har jag tid och energi för detta idag?'",
+        "Se till att du har något litet inplanerat som ger energi, inte bara tar – en kort promenad, en kopp kaffe i lugn och ro, ett samtal.",
+        "Kom överens med dig själv om en “good enough”-nivå för en uppgift – allt behöver inte vara perfekt."
       ],
       [
-        "Ta dig an en lagom utmaning som känns viktig.",
-        "Planera återhämtning även när du känner kontroll.",
+        "Använd din höga hanterbarhet till att skapa buffertar: gör något i förväg som du brukar stressa över senare.",
+        "Se över din belastning – finns något du kan ta bort innan det blir för mycket, även om du “klarar det” nu?",
+        "När andra ber om hjälp: känn efter vad du faktiskt har utrymme för att ta, så att din känsla av kontroll inte äts upp.",
+        "Välj en lagom utmaning som känns rolig (inte bara plikttrogen) och se hur du kan göra den hållbar över tid.",
+        "Planera återhämtning även när du känner kontroll - hög hanterbarhet behöver underhållas.",
         "Dela ansvar – stärker upplevd gemensam hanterbarhet."
       ]
     );
@@ -464,4 +488,5 @@ document.addEventListener("DOMContentLoaded", () => {
       });
   }
 });
+
 
