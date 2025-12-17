@@ -168,7 +168,7 @@ input[type="range"] {
   margin-top: 0.15rem;
 }
 
-/* --- Råd-layout --- */
+/* --- Råd-layout & fällbara kort --- */
 
 .advice-grid {
   display: grid;
@@ -180,9 +180,9 @@ input[type="range"] {
 .advice-card {
   background: rgba(15, 23, 42, 0.9);
   border-radius: 0.75rem;
-  padding: 0.75rem 0.9rem;
   border-left: 4px solid rgba(148, 163, 184, 0.8);
   transition: transform 0.05s ease, box-shadow 0.05s ease;
+  overflow: hidden;
 }
 
 .advice-card:hover {
@@ -190,8 +190,34 @@ input[type="range"] {
   box-shadow: 0 10px 20px rgba(15, 23, 42, 0.7);
 }
 
+/* Header som klickas för att fälla ut/ihop */
+
+.advice-header {
+  width: 100%;
+  border: none;
+  background: transparent;
+  color: inherit;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.7rem 0.9rem;
+  cursor: pointer;
+}
+
+.advice-title {
+  font-size: 0.95rem;
+  font-weight: 600;
+}
+
+.advice-toggle-icon {
+  font-size: 1rem;
+  opacity: 0.8;
+}
+
+/* Innehållet med själva råden */
+
 .advice-list {
-  padding-left: 1.1rem;
+  padding: 0.1rem 0.9rem 0.75rem 1.5rem;
   font-size: 0.9rem;
 }
 
@@ -199,7 +225,21 @@ input[type="range"] {
   margin-bottom: 0.25rem;
 }
 
-/* Färgkod per nivå */
+/* Fäll ihop: göm listan, ändra ikon */
+
+.advice-card.collapsed .advice-list {
+  display: none;
+}
+
+.advice-card.collapsed .advice-toggle-icon {
+  transform: rotate(0deg);
+}
+
+.advice-card.expanded .advice-toggle-icon {
+  transform: rotate(45deg); /* + → x-känsla */
+}
+
+/* Färgkod per nivå (påverkar bara border + rubrikfärg) */
 
 .advice-card.level-low {
   border-left-color: #f97373;
@@ -213,15 +253,15 @@ input[type="range"] {
   border-left-color: #22c55e;
 }
 
-.advice-card.level-low h3 {
+.advice-card.level-low .advice-title {
   color: #fecaca;
 }
 
-.advice-card.level-medium h3 {
+.advice-card.level-medium .advice-title {
   color: #facc15;
 }
 
-.advice-card.level-high h3 {
+.advice-card.level-high .advice-title {
   color: #bbf7d0;
 }
 
