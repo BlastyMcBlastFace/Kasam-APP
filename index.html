@@ -1,3 +1,5 @@
+<!doctype html>
+<html lang="sv">
 <head>
   <meta charset="utf-8" />
   <title>KASAM – Daglig check-in</title>
@@ -14,7 +16,7 @@
   <!-- PWA manifest -->
   <link rel="manifest" href="manifest.json" />
 
-  <!-- Ikon för iOS (kan peka på 192- eller 512-ikonen) -->
+  <!-- Ikon för iOS -->
   <link rel="apple-touch-icon" href="icons/icon-192.png" />
 
   <link rel="stylesheet" href="style.css" />
@@ -121,22 +123,31 @@
       </div>
 
       <div class="advice-grid">
-        <div class="advice-card" id="card-meaning">
-          <h3>Meningsfullhet</h3>
+        <div class="advice-card collapsed" id="card-meaning">
+          <button class="advice-header" type="button" data-dimension="meaning">
+            <span class="advice-title">Meningsfullhet</span>
+            <span class="advice-toggle-icon">+</span>
+          </button>
           <ul class="advice-list" id="advice-meaning">
             <li>(Råd laddas…)</li>
           </ul>
         </div>
 
-        <div class="advice-card" id="card-comprehension">
-          <h3>Begriplighet</h3>
+        <div class="advice-card collapsed" id="card-comprehension">
+          <button class="advice-header" type="button" data-dimension="comprehension">
+            <span class="advice-title">Begriplighet</span>
+            <span class="advice-toggle-icon">+</span>
+          </button>
           <ul class="advice-list" id="advice-comprehension">
             <li>(Råd laddas…)</li>
           </ul>
         </div>
 
-        <div class="advice-card" id="card-manageability">
-          <h3>Hanterbarhet</h3>
+        <div class="advice-card collapsed" id="card-manageability">
+          <button class="advice-header" type="button" data-dimension="manageability">
+            <span class="advice-title">Hanterbarhet</span>
+            <span class="advice-toggle-icon">+</span>
+          </button>
           <ul class="advice-list" id="advice-manageability">
             <li>(Råd laddas…)</li>
           </ul>
@@ -160,11 +171,10 @@
     </section>
 
     <footer>
-      <p>Version 5.3 – info-popups per slider, rådstilar, daglig loggning och graf.</p>
+      <p>Version 5.4 – fällbara råd, info-popups, rådstilar, daglig loggning och graf.</p>
     </footer>
   </main>
 
   <script src="app.js"></script>
 </body>
 </html>
-
