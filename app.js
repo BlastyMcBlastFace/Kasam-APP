@@ -123,7 +123,7 @@ document.addEventListener("DOMContentLoaded", () => {
       ],
       [
         "Notera under dagen: när känner du lite mer energi eller närvaro? Skriv ned en kort rad om det.",
-        "Välj en återkommande uppgift och påminn dig själv: “Vem eller vad bidrar jag till genom det här?”,
+        "Välj en återkommande uppgift och påminn dig själv: “Vem eller vad bidrar jag till genom det här?”",
         "Identifiera när du känt mest energi idag och planera in mer av det.",
         "Justera en liten sak i vardagen så den ligger mer i linje med dina värderingar (t.ex. hur du startar dagen eller avslutar en arbetsuppgift).",
         "Formulera dagens viktigaste mening: 'Idag betyder det mest att jag..., då känns dagen okej.'"
@@ -488,5 +488,6 @@ document.addEventListener("DOMContentLoaded", () => {
       });
   }
 });
+
 
 
