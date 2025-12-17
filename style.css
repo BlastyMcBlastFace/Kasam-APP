@@ -235,6 +235,11 @@ input[type="range"] {
   transform: rotate(0deg);
 }
 
+/* När kortet är expanderat – visa listan */
+.advice-card.expanded .advice-list {
+  display: block;
+}
+
 .advice-card.expanded .advice-toggle-icon {
   transform: rotate(45deg); /* + → x-känsla */
 }
@@ -342,3 +347,4 @@ footer {
     margin-right: 0.5rem;
   }
 }
+
