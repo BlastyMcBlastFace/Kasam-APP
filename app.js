@@ -455,45 +455,35 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // ===== Fällbara råd =====
-function initAdviceCollapse() {
+ function initAdviceCollapse() {
   const cards = document.querySelectorAll(".advice-card");
-  const headers = document.querySelectorAll(".advice-header");
+  console.log("initAdviceCollapse: hittade", cards.length, "kort");
 
-  if (!cards.length || !headers.length) {
-    console.warn("Hittar inga advice-kort eller headers.");
-    return;
-  }
+  if (!cards.length) return;
 
-  // Säkerställ att alla kort startar kollapsade
+  // Startläge: alla kort kollapsade
   cards.forEach((card) => {
     card.classList.add("collapsed");
     card.classList.remove("expanded");
     const icon = card.querySelector(".advice-toggle-icon");
     if (icon) icon.textContent = "+";
-  });
 
-  headers.forEach((header) => {
-    header.addEventListener("click", () => {
-      const card = header.closest(".advice-card");
-      if (!card) return;
+    // Klick på hela kortet (inkl rubrik) togglar
+    card.addEventListener("click", (event) => {
+      // Om du vill begränsa till bara headern kan du göra:
+      // if (!event.target.closest(".advice-header")) return;
 
-      const icon = header.querySelector(".advice-toggle-icon");
       const isCollapsed = card.classList.contains("collapsed");
+      const iconInner = card.querySelector(".advice-toggle-icon");
 
-      // Stäng alla kort först (endast ett öppet åt gången)
-      cards.forEach((c) => {
-        c.classList.add("collapsed");
-        c.classList.remove("expanded");
-        const i = c.querySelector(".advice-toggle-icon");
-        if (i) i.textContent = "+";
-      });
-
-      // Om det man klickade på var kollapsat → öppna det
       if (isCollapsed) {
         card.classList.remove("collapsed");
         card.classList.add("expanded");
-        if (icon) icon.textContent = "–";
+        if (iconInner) iconInner.textContent = "–";
+      } else {
+        card.classList.add("collapsed");
+        card.classList.remove("expanded");
+        if (iconInner) iconInner.textContent = "+";
       }
     });
   });
@@ -537,4 +527,5 @@ function initAdviceCollapse() {
       });
   }
 });
+
 
