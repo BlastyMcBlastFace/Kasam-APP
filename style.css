@@ -327,6 +327,76 @@ footer {
 }
 
 /* Responsiv layout */
+/* === Anteckningar === */
+
+.notes {
+  background: rgba(15, 23, 42, 0.8);
+  border-radius: 1rem;
+  padding: 1rem;
+  margin-bottom: 0.75rem;
+  border: 1px solid rgba(51, 65, 85, 0.9);
+}
+
+.notes-text {
+  font-size: 0.9rem;
+  color: #cbd5e1;
+  margin-bottom: 0.5rem;
+}
+
+#daily-note {
+  width: 100%;
+  min-height: 4rem;
+  resize: vertical;
+  border-radius: 0.5rem;
+  border: 1px solid #4b5563;
+  background: #020617;
+  color: #e5e7eb;
+  padding: 0.5rem 0.6rem;
+  font-size: 0.9rem;
+  margin-bottom: 0.5rem;
+}
+
+.notes-btn {
+  margin-top: 0.25rem;
+}
+
+.notes-history {
+  margin-top: 0.75rem;
+}
+
+.notes-history h3 {
+  font-size: 0.95rem;
+  margin-bottom: 0.25rem;
+}
+
+.notes-list {
+  list-style: none;
+  padding-left: 0;
+  font-size: 0.85rem;
+  color: #e5e7eb;
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+.notes-list li {
+  padding: 0.35rem 0.4rem;
+  border-bottom: 1px solid rgba(51, 65, 85, 0.7);
+}
+
+.notes-list li:last-child {
+  border-bottom: none;
+}
+
+.notes-list .note-date {
+  font-weight: 600;
+  color: #a5b4fc;
+  margin-right: 0.4rem;
+}
+
+.notes-list .note-text {
+  opacity: 0.95;
+}
+
 
 @media (min-width: 768px) {
   h1 {
@@ -347,4 +417,5 @@ footer {
     margin-right: 0.5rem;
   }
 }
+
 
