@@ -32,8 +32,15 @@ document.addEventListener("DOMContentLoaded", () => {
   const infoButtons = document.querySelectorAll(".info-icon");
   const infoBoxes = document.querySelectorAll(".info-box");
 
+  const noteTextarea = document.getElementById("daily-note");
+  const saveNoteBtn = document.getElementById("save-note-btn");
+  const noteStatus = document.getElementById("note-status");
+  const notesList = document.getElementById("notes-list");
+
+
   const STORAGE_KEY = "kasamLogV1";
   const ADVICE_STYLE_KEY = "kasamAdviceStyleV1";
+  const NOTES_KEY = "kasamNotesV1";
   let kasamChart = null;
 
   // ===== LocalStorage (daglig logg) =====
@@ -76,6 +83,93 @@ document.addEventListener("DOMContentLoaded", () => {
     return entries;
   }
 
+  // ===== Anteckningar (dagliga reflektioner) =====
+
+  function loadNotes() {
+    try {
+      const raw = localStorage.getItem(NOTES_KEY);
+      if (!raw) return {};
+      return JSON.parse(raw);
+    } catch (e) {
+      console.error("Kunde inte läsa anteckningar:", e);
+      return {};
+    }
+  }
+
+  function saveNotes(notes) {
+    try {
+      localStorage.setItem(NOTES_KEY, JSON.stringify(notes));
+    } catch (e) {
+      console.error("Kunde inte spara anteckningar:", e);
+    }
+  }
+
+  function saveTodayNote(text) {
+    const notes = loadNotes();
+    const d = todayISODate();
+    notes[d] = { date: d, text };
+    saveNotes(notes);
+    return d;
+  }
+
+  function getSortedNotes() {
+    const notes = loadNotes();
+    const arr = Object.values(notes);
+    arr.sort((a, b) => (a.date < b.date ? -1 : 1));
+    return arr;
+  }
+
+  function renderNotesList(limit = 10) {
+    if (!notesList) return;
+
+    const all = getSortedNotes();
+    const latest = all.slice(-limit); // senaste X
+    notesList.innerHTML = "";
+
+    if (!latest.length) {
+      const li = document.createElement("li");
+      li.textContent = "Inga sparade reflektioner ännu.";
+      notesList.appendChild(li);
+      return;
+    }
+
+    latest.forEach((n) => {
+      const li = document.createElement("li");
+      const dateSpan = document.createElement("span");
+      dateSpan.className = "note-date";
+      dateSpan.textContent = n.date;
+
+      const textSpan = document.createElement("span");
+      textSpan.className = "note-text";
+      textSpan.textContent = n.text || "(tom anteckning)";
+
+      li.appendChild(dateSpan);
+      li.appendChild(textSpan);
+      notesList.appendChild(li);
+    });
+  }
+
+  function initNotesUI() {
+    if (!noteTextarea || !saveNoteBtn) return;
+
+    // Fyll dagens anteckning om den finns
+    const notes = loadNotes();
+    const today = todayISODate();
+    if (notes[today] && notes[today].text) {
+      noteTextarea.value = notes[today].text;
+    }
+
+    renderNotesList();
+
+    saveNoteBtn.addEventListener("click", () => {
+      const text = noteTextarea.value.trim();
+      const date = saveTodayNote(text);
+      noteStatus.textContent = `Reflektion för ${date} sparad lokalt.`;
+      renderNotesList();
+    });
+  }
+
+  
   function toDisplayDate(iso) {
     const d = new Date(iso + "T00:00:00");
     return d.toLocaleDateString("sv-SE", { month: "short", day: "numeric" });
@@ -508,6 +602,7 @@ document.addEventListener("DOMContentLoaded", () => {
   initInfoPopups();
   initAdviceCollapse();
   updateUI();
+  initNotesUI();
   renderChart();
 
   // Service worker-registrering (för PWA)
@@ -522,3 +617,4 @@ document.addEventListener("DOMContentLoaded", () => {
       });
   }
 });
+
