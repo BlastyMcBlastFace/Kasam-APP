@@ -160,6 +160,32 @@
       </div>
     </section>
 
+    <section class="notes">
+      <h2>Dagens reflektion</h2>
+      <p class="notes-text">
+        Skriv en kort reflektion om dagen. Det kan vara något som påverkat din KASAM,
+        en insikt eller något du vill komma ihåg till senare.
+      </p>
+
+      <textarea
+        id="daily-note"
+        rows="3"
+        placeholder="Exempel: Idag kände jag mig låg på begriplighet eftersom…"
+      ></textarea>
+
+      <button id="save-note-btn" class="primary-btn notes-btn">
+        Spara reflektion
+      </button>
+      <p id="note-status" class="status-text"></p>
+
+      <div class="notes-history">
+        <h3>Tidigare reflektioner</h3>
+        <ul id="notes-list" class="notes-list">
+          <!-- Fylls av JavaScript -->
+        </ul>
+      </div>
+    </section>
+    
     <section class="history">
       <h2>Historik & utveckling</h2>
       <p class="history-text">
@@ -178,3 +204,4 @@
   <script src="app.js"></script>
 </body>
 </html>
+
